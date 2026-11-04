@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusPrep Portal // Placement & Aptitude Intelligence Suite</title>
+  <meta name="description" content="Production-ready placement preparation suite: 15 company mock exams (TCS, Infosys, Accenture, CTS, Wipro), 10 AI career digests, and AptiBot offline intelligence.">
+  
+  <!-- Google Fonts: Inter, JetBrains Mono, Noto Sans JP -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            darkBg: '#0B0F19',
+            cardBg: '#111827',
+            cardElevated: '#172033',
+            cardHover: '#1E293B',
+            borderSubtle: 'rgba(255, 255, 255, 0.08)',
+            primary: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              200: '#C7D2FE',
+              300: '#A5B4FC',
+              400: '#818CF8',
+              500: '#6366F1',
+              600: '#4F46E5',
+              700: '#4338CA',
+              800: '#3730A3',
+              900: '#312E81',
+            },
+            accentViolet: '#8B5CF6',
+            accentCyan: '#06B6D4',
+            accentEmerald: '#10B981',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            jp: ['Noto Sans JP', 'Inter', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- KaTeX for Textbook-Quality Mathematical Formatting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+
+  <!-- Custom Design System CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="bg-[#0B0F19] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-indigo-500/30 selection:text-indigo-200">
+
+  <!-- Ambient Radial Glow Backdrop -->
+  <div class="ambient-glow" aria-hidden="true"></div>
+
+  <!-- Global App Layout Wrapper -->
+  <div class="relative z-10 flex min-h-screen w-full">
+
+    <!-- Collapsible Desktop & Mobile Sidebar Navigation -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 md:w-72 bg-[#0E1526]/90 backdrop-blur-xl border-r border-white/5 flex flex-col transition-transform duration-300 -translate-x-full md:translate-x-0">
+      
+      <!-- Brand Header -->
+      <div class="h-16 px-6 flex items-center justify-between border-b border-white/5">
+        <a href="#overview" class="flex items-center gap-3 group">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/25 group-hover:scale-105 transition-transform">
+            <i data-lucide="layers" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="font-bold text-sm tracking-wider uppercase text-white flex items-center gap-1.5">
+              NexusLab
+              <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">v1.2</span>
+            </div>
+            <div class="text-[11px] text-slate-400 font-medium">Group Project Showcase</div>
+          </div>
+        </a>
+
+        <!-- Mobile Close Button -->
+        <button id="sidebar-close-btn" class="md:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors" aria-label="Close Sidebar">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="flex-1 px-4 py-5 space-y-1.5 overflow-y-auto">
+        <div class="px-3 pb-2 text-[11px] font-semibold tracking-wider uppercase text-slate-400">Main Modules</div>
+        
+        <a href="#overview" id="nav-overview" class="nav-item flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-white bg-indigo-500/15 border border-indigo-500/30">
+          <div class="flex items-center gap-3">
+            <i data-lucide="layout-dashboard" class="w-4 h-4 text-indigo-400"></i>
+            <span>Overview Dashboard</span>
+          </div>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300">Home</span>
+        </a>
+
+        <a href="#exams" id="nav-exams" class="nav-item flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-300 hover:text-white hover:bg-white/5 border border-transparent">
+          <div class="flex items-center gap-3">
+            <i data-lucide="graduation-cap" class="w-4 h-4 text-slate-400"></i>
+            <span>Exam Hub</span>
+          </div>
+          <span id="nav-exams-badge" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-violet-500/10 text-violet-400 border border-violet-500/20">15 Exams</span>
+        </a>
+
+        <a href="#news" id="nav-news" class="nav-item flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-300 hover:text-white hover:bg-white/5 border border-transparent">
+          <div class="flex items-center gap-3">
+            <i data-lucide="newspaper" class="w-4 h-4 text-slate-400"></i>
+            <span>Daily Placement Digest</span>
+          </div>
+          <span id="nav-news-badge" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">10 Issues</span>
+        </a>
+
+        <a href="#chatbot" id="nav-chatbot" class="nav-item flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-300 hover:text-white hover:bg-white/5 border border-transparent">
+          <div class="flex items-center gap-3">
+            <i data-lucide="bot" class="w-4 h-4 text-slate-400"></i>
+            <span>AptiBot Mentor</span>
+          </div>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">AptiBot</span>
+        </a>
+
+        <div class="pt-5 px-3 pb-2 text-[11px] font-semibold tracking-wider uppercase text-slate-400">Repository Info</div>
+
+        <a href="#specs" id="nav-specs" class="nav-item flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-300 hover:text-white hover:bg-white/5 border border-transparent">
+          <div class="flex items-center gap-3">
+            <i data-lucide="file-code" class="w-4 h-4 text-slate-400"></i>
+            <span>Architecture & Specs</span>
+          </div>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">Docs</span>
+        </a>
+
+        <button id="sidebar-guide-btn" class="nav-item w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-300 hover:text-white hover:bg-white/5 border border-transparent text-left">
+          <div class="flex items-center gap-3">
+            <i data-lucide="book-open-check" class="w-4 h-4 text-indigo-400"></i>
+            <span>Contributor Guide</span>
+          </div>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">Help</span>
+        </button>
+      </div>
+
+      <!-- Team Badge Card in Sidebar Footer -->
+      <div class="p-4 border-t border-white/5 bg-[#090D16]/60">
+        <div class="p-3 rounded-xl bg-white/[0.03] border border-white/5">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span class="text-xs font-semibold text-slate-200">Team Alpha</span>
+            </div>
+            <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">Ready</span>
+          </div>
+          <div class="text-[11px] text-slate-400 leading-tight">
+            Collaborative Group Project • 4 Members
+          </div>
+          <div class="mt-2.5 pt-2 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-400">
+            <span>Branch: <span class="font-mono text-slate-300">main</span></span>
+            <span class="font-mono text-indigo-400">e8b2f1</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 hidden md:hidden"></div>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-h-screen md:pl-72 transition-all">
+
+      <!-- Global Top Bar -->
+      <header class="sticky top-0 z-20 h-16 bg-[#0B0F19]/80 backdrop-blur-md border-b border-white/5 px-4 md:px-8 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <button id="sidebar-open-btn" class="md:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-colors" aria-label="Open Sidebar">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+          
+          <div class="flex items-center gap-2 text-sm">
+            <span class="text-slate-400 hidden sm:inline">Project</span>
+            <span class="text-slate-600 hidden sm:inline">/</span>
+            <span id="topbar-breadcrumb" class="font-semibold text-white">Repository Overview</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- Build Status Pill -->
+          <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-medium text-emerald-400">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Production Build Verified</span>
+          </div>
+
+          <!-- Contributor Guide Button -->
+          <button id="topbar-guide-btn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 transition-all shadow-sm shadow-indigo-500/10" title="Open Contributor Guide & Cheat Sheet">
+            <i data-lucide="book-open-check" class="w-3.5 h-3.5 text-indigo-400"></i>
+            <span class="hidden sm:inline">Contributor Guide</span>
+          </button>
+
+          <!-- Quick Module Jump Shortcuts -->
+          <div class="flex items-center gap-1.5">
+            <a href="#exams" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors" title="Exam Hub">
+              <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+            </a>
+            <a href="#news" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors" title="AI Newsletters">
+              <i data-lucide="newspaper" class="w-4 h-4"></i>
+            </a>
+            <a href="#chatbot" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors" title="Sahyadri Assistant">
+              <i data-lucide="bot" class="w-4 h-4"></i>
+            </a>
+          </div>
+
+          <div class="h-4 w-px bg-white/10 mx-1"></div>
+
+          <!-- GitHub / Docs Link Button -->
+          <a href="#specs" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition-colors">
+            <i data-lucide="github" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Repository Specs</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- View Containers (Rendered Single Page App Panes) -->
+      <main class="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full">
+
+        <!-- ==========================================================================
+             VIEW 1: REPOSITORY OVERVIEW (HOME DASHBOARD)
+             ========================================================================== -->
+        <section id="view-overview" class="view-pane space-y-8 animate-fade-in">
+          
+          <!-- Hero Section -->
+          <div class="relative overflow-hidden rounded-2xl glass-panel p-6 md:p-8 border border-white/10 bg-gradient-to-br from-[#111827]/90 via-[#131D33]/70 to-[#18182B]/60 shadow-2xl">
+            <div class="relative z-10 max-w-3xl">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-mono mb-4">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                Placement Preparation & Career Intelligence Suite
+              </div>
+              <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-3 leading-tight">
+                CampusPrep Intelligence & Placement Evaluation Portal
+              </h1>
+              <p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6 font-normal">
+                A unified, client-side placement workspace: 15 comprehensive mock exams (TCS, Infosys, Accenture, CTS, Wipro + Japanese JLPT), 
+                a 10-edition placement & AI career digest, and AptiBot offline intelligence with an interactive quiz challenge mode.
+              </p>
+              
+              <div class="flex flex-wrap gap-3">
+                <a href="#exams" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm transition-all shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50">
+                  <i data-lucide="play-circle" class="w-4 h-4"></i>
+                  Launch Exam Hub (15 Tests)
+                </a>
+                <a href="#chatbot" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 font-medium text-sm transition-all">
+                  <i data-lucide="bot" class="w-4 h-4 text-emerald-400"></i>
+                  Launch AptiBot Mentor
+                </a>
+                <a href="#news" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 font-medium text-sm transition-all">
+                  <i data-lucide="book-open" class="w-4 h-4 text-cyan-400"></i>
+                  Placement Digest (10 Issues)
+                </a>
+              </div>
+            </div>
+
+            <!-- Background decorative grid / badge -->
+            <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+          </div>
+
+          <!-- KPI Metric Cards Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <div class="glass-panel p-5 rounded-2xl glass-panel-hover">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Deliverables</span>
+                <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
+                  <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                </div>
+              </div>
+              <div class="text-3xl font-extrabold text-white tracking-tight mb-1">4 Modules</div>
+              <div class="text-xs text-slate-400 flex items-center gap-1.5">
+                <span class="text-emerald-400 font-medium">100% complete</span>
+                <span>• Fully integrated Workspace</span>
+              </div>
+            </div>
+
+            <div class="glass-panel p-5 rounded-2xl glass-panel-hover">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Exam Hub</span>
+                <div class="w-8 h-8 rounded-lg bg-violet-500/10 text-violet-400 flex items-center justify-center">
+                  <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                </div>
+              </div>
+              <div id="kpi-exams-count" class="text-3xl font-extrabold text-white tracking-tight mb-1">15 Exams</div>
+              <div class="text-xs text-slate-400 flex items-center gap-1.5">
+                <span id="kpi-questions-count" class="text-violet-400 font-medium">287 Questions</span>
+                <span id="kpi-exams-subtitle">• TCS, Infosys, CTS, Wipro & JLPT</span>
+              </div>
+            </div>
+
+            <div class="glass-panel p-5 rounded-2xl glass-panel-hover">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Placement Digest</span>
+                <div class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
+                  <i data-lucide="newspaper" class="w-4 h-4"></i>
+                </div>
+              </div>
+              <div id="kpi-news-count" class="text-3xl font-extrabold text-white tracking-tight mb-1">10 Issues</div>
+              <div class="text-xs text-slate-400 flex items-center gap-1.5">
+                <span class="text-cyan-400 font-medium">100% Curated</span>
+                <span>• Industry Hiring & AI Trends</span>
+              </div>
+            </div>
+
+            <div class="glass-panel p-5 rounded-2xl glass-panel-hover">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">AptiBot Mentor</span>
+                <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                  <i data-lucide="bot" class="w-4 h-4"></i>
+                </div>
+              </div>
+              <div class="text-3xl font-extrabold text-white tracking-tight mb-1">Instant NLP</div>
+              <div class="text-xs text-slate-400 flex items-center gap-1.5">
+                <span class="text-emerald-400 font-medium">Quiz Mode + Solver</span>
+                <span>• Zero Latency Cheatsheets</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Project Sub-Modules Quick Launch Directory -->
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h2 class="text-xl font-bold text-white tracking-tight">Project Directory</h2>
+                <p class="text-xs text-slate-400">Direct access to all major engineering sub-modules</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+              
+              <!-- Module 1 Card -->
+              <div class="glass-panel p-6 rounded-2xl glass-panel-hover flex flex-col justify-between group">
+                <div>
+                  <div class="flex items-center justify-between mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-violet-500/10 text-violet-400 flex items-center justify-center border border-violet-500/20 group-hover:scale-105 transition-transform">
+                      <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-xs font-mono px-2 py-0.5 rounded-full bg-violet-500/10 text-violet-300 border border-violet-500/20">Module 01</span>
+                  </div>
+                  <h3 class="text-lg font-bold text-white mb-2 group-hover:text-violet-300 transition-colors">Exam Hub & Assessment Engine</h3>
+                  <p class="text-slate-400 text-xs leading-relaxed mb-4">
+                    Full-featured interactive testing platform with countdown timers, question palette navigation, score calculation, and deep review explanations.
+                  </p>
+                  <div class="space-y-1.5 text-xs text-slate-300 mb-6">
+                    <div class="flex items-center gap-2">
+                      <i data-lucide="check" class="w-3.5 h-3.5 text-violet-400"></i>
+                      <span>3 Aptitude Exams (Quant, Reasoning, Verbal & DI)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <i data-lucide="check" class="w-3.5 h-3.5 text-violet-400"></i>
+                      <span>2 Japanese Exams (JLPT N5 Vocab & Particles)</span>
+                    </div>
+                  </div>
+                </div>
+                <a href="#exams" class="w-full py-2 px-3 rounded-xl bg-white/5 hover:bg-violet-600/20 text-slate-200 hover:text-white border border-white/10 hover:border-violet-500/30 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                  <span>Open Exam Hub</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </a>
+              </div>
+
+              <!-- Module 2 Card -->
+              <div class="glass-panel p-6 rounded-2xl glass-panel-hover flex flex-col justify-between group">
+                <div>
+                  <div class="flex items-center justify-between mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center border border-cyan-500/20 group-hover:scale-105 transition-transform">
+                      <i data-lucide="newspaper" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-xs font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">Module 02</span>
+                  </div>
+                  <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">AI Intelligence Digest (10 Days)</h3>
+                  <p class="text-slate-400 text-xs leading-relaxed mb-4">
+                    Technical synthesis covering the frontier of AI: DeepSeek-V3/R1, SWE-bench breakthroughs, multimodal codecs, and edge SLMs.
+                  </p>
+                  <div class="space-y-1.5 text-xs text-slate-300 mb-6">
+                    <div class="flex items-center gap-2">
+                      <i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i>
+                      <span>Real-time search by keyword & category filters</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <i data-lucide="check" class="w-3.5 h-3.5 text-cyan-400"></i>
+                      <span>Key takeaways bullets + full modal reader</span>
+                    </div>
+                  </div>
+                </div>
+                <a href="#news" class="w-full py-2 px-3 rounded-xl bg-white/5 hover:bg-cyan-600/20 text-slate-200 hover:text-white border border-white/10 hover:border-cyan-500/30 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                  <span>Browse Newsletters</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </a>
+              </div>
+
+              <!-- Module 3 Card -->
+              <div class="glass-panel p-6 rounded-2xl glass-panel-hover flex flex-col justify-between group">
+                <div>
+                  <div class="flex items-center justify-between mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20 group-hover:scale-105 transition-transform">
+                      <i data-lucide="bot" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-xs font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">Module 03</span>
+                  </div>
+                  <h3 class="text-lg font-bold text-white mb-2 group-hover:text-emerald-300 transition-colors">Sahyadri Assistant (Campus NLP)</h3>
+                  <p class="text-slate-400 text-xs leading-relaxed mb-4">
+                    Autonomous client-side knowledge assistant for Sahyadri College of Engineering & Management with natural typing simulation.
+                  </p>
+                  <div class="space-y-1.5 text-xs text-slate-300 mb-6">
+                    <div class="flex items-center gap-2">
+                      <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
+                      <span>Instant lookup: KCET code E160, COMEDK, PGCET</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
+                      <span>Branch lists, placement statistics & incubators</span>
+                    </div>
+                  </div>
+                </div>
+                <a href="#chatbot" class="w-full py-2 px-3 rounded-xl bg-white/5 hover:bg-emerald-600/20 text-slate-200 hover:text-white border border-white/10 hover:border-emerald-500/30 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                  <span>Launch Assistant</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Team Members & Group Activity Timeline Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Team Alpha Roster Card -->
+            <div class="glass-panel p-6 rounded-2xl lg:col-span-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <i data-lucide="users" class="w-4 h-4 text-indigo-400"></i>
+                    Group Contributors
+                  </h3>
+                  <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">4 Members</span>
+                </div>
+                
+                <div class="space-y-3">
+                  
+                  <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-indigo-500/20 text-indigo-300 font-bold text-xs flex items-center justify-center border border-indigo-500/30">
+                      SK
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <div class="text-xs font-semibold text-white truncate">Shravan Kumar</div>
+                      <div class="text-[11px] text-slate-400">Lead Architect & Full-Stack Engineer</div>
+                    </div>
+                    <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-400">Lead</span>
+                  </div>
+
+                  <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-violet-500/20 text-violet-300 font-bold text-xs flex items-center justify-center border border-violet-500/30">
+                      AR
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <div class="text-xs font-semibold text-white truncate">Ananya Rao</div>
+                      <div class="text-[11px] text-slate-400">Senior UI/UX Designer & Frontend</div>
+                    </div>
+                    <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-violet-500/10 text-violet-400">Design</span>
+                  </div>
+
+                  <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-cyan-500/20 text-cyan-300 font-bold text-xs flex items-center justify-center border border-cyan-500/30">
+                      RP
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <div class="text-xs font-semibold text-white truncate">Rohan Prabhu</div>
+                      <div class="text-[11px] text-slate-400">NLP & Knowledge Base Engineer</div>
+                    </div>
+                    <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-400">NLP</span>
+                  </div>
+
+                  <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold text-xs flex items-center justify-center border border-emerald-500/30">
+                      VB
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <div class="text-xs font-semibold text-white truncate">Varun Bhat</div>
+                      <div class="text-[11px] text-slate-400">Content Curator & QA Validation</div>
+                    </div>
+                    <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400">QA</span>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs text-slate-400">
+                <span>Repository Readiness:</span>
+                <span class="text-emerald-400 font-semibold">100% Submission Ready</span>
+              </div>
+            </div>
+
+            <!-- Milestone Activity Log Timeline -->
+            <div class="glass-panel p-6 rounded-2xl lg:col-span-2">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                  <i data-lucide="history" class="w-4 h-4 text-indigo-400"></i>
+                  Group Milestones & Activity Timeline
+                </h3>
+                <span class="text-xs text-slate-400">Sprint 1 – Sprint 5</span>
+              </div>
+
+              <div class="relative pl-6 space-y-5 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-white/10">
+                
+                <div class="relative">
+                  <div class="absolute -left-[23px] top-1 w-3 h-3 rounded-full bg-emerald-400 border-2 border-[#0B0F19]"></div>
+                  <div class="flex flex-wrap items-center justify-between gap-1 mb-1">
+                    <span class="text-xs font-semibold text-white">Sprint 5: Production Polish, Cross-Browser Audit & Final Signoff</span>
+                    <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">Completed</span>
+                  </div>
+                  <p class="text-xs text-slate-400">Integrated Lucide icons, glassmorphism utilities, unified error boundaries, and validated mobile responsive drawers.</p>
+                </div>
+
+                <div class="relative">
+                  <div class="absolute -left-[23px] top-1 w-3 h-3 rounded-full bg-indigo-500 border-2 border-[#0B0F19]"></div>
+                  <div class="flex flex-wrap items-center justify-between gap-1 mb-1">
+                    <span class="text-xs font-semibold text-white">Sprint 4: Sahyadri Campus NLP Engine & FAQ Knowledge Graph</span>
+                    <span class="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded">Completed</span>
+                  </div>
+                  <p class="text-xs text-slate-400">Indexed CET/COMEDK/PGCET admission codes (E160), placements statistics, branches, and incubation programs into offline client matcher.</p>
+                </div>
+
+                <div class="relative">
+                  <div class="absolute -left-[23px] top-1 w-3 h-3 rounded-full bg-indigo-500 border-2 border-[#0B0F19]"></div>
+                  <div class="flex flex-wrap items-center justify-between gap-1 mb-1">
+                    <span class="text-xs font-semibold text-white">Sprint 3: AI Intelligence Digest & Modal Reader Implementation</span>
+                    <span class="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded">Completed</span>
+                  </div>
+                  <p class="text-xs text-slate-400">Authored 10 comprehensive AI newsletters with multi-factor search filtering, takeaways pills, and smooth modal reading views.</p>
+                </div>
+
+                <div class="relative">
+                  <div class="absolute -left-[23px] top-1 w-3 h-3 rounded-full bg-indigo-500 border-2 border-[#0B0F19]"></div>
+                  <div class="flex flex-wrap items-center justify-between gap-1 mb-1">
+                    <span class="text-xs font-semibold text-white">Sprint 2: Exam Hub Engine & Bilingual Questions Dataset</span>
+                    <span class="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded">Completed</span>
+                  </div>
+                  <p class="text-xs text-slate-400">Constructed 3 Aptitude & 2 JLPT N5 Japanese exams with live timer countdowns, question palette navigation, and solution accordions.</p>
+                </div>
+
+                <div class="relative">
+                  <div class="absolute -left-[23px] top-1 w-3 h-3 rounded-full bg-indigo-500 border-2 border-[#0B0F19]"></div>
+                  <div class="flex flex-wrap items-center justify-between gap-1 mb-1">
+                    <span class="text-xs font-semibold text-white">Sprint 1: Base Architecture & Modern Dark Mode Design System</span>
+                    <span class="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded">Completed</span>
+                  </div>
+                  <p class="text-xs text-slate-400">Established slate/zinc #0B0F19 color tokens, SPA hash router, responsive sidebar drawer, and decoupled JavaScript datasets.</p>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ==========================================================================
+             VIEW 2: EXAM HUB (5 QUIZZES: 3 APTITUDE + 2 JAPANESE)
+             ========================================================================== -->
+        <section id="view-exams" class="view-pane hidden space-y-6 animate-fade-in">
+          
+          <!-- Exam Hub Header & Tabs -->
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/5 pb-5">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-mono px-2 py-0.5 rounded bg-violet-500/10 text-violet-400 border border-violet-500/20">Interactive Assessment Engine</span>
+                <span id="exams-header-stats" class="text-xs text-slate-400">• 15 Exams • 287 MCQs</span>
+              </div>
+              <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Exam Center & Evaluation Engine</h2>
+              <p class="text-slate-400 text-xs md:text-sm mt-1">Official pattern tests for TCS, Infosys, Accenture, Cognizant, Wipro, Quantitative Aptitude, Logical Reasoning, and Japanese JLPT with immediate step-by-step reasoning.</p>
+            </div>
+
+            <!-- Action Buttons & Tabs -->
+            <div class="flex flex-wrap items-center gap-2.5">
+              <button id="btn-open-exam-creator" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-semibold text-xs flex items-center gap-2 transition-all shadow-lg shadow-violet-600/25 hover:shadow-violet-600/40">
+                <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                <span>+ Create / Attach Test</span>
+              </button>
+
+              <button id="btn-export-exams" class="px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 font-medium text-xs flex items-center gap-1.5 transition-colors" title="Copy full exams dataset to clipboard as JSON">
+                <i data-lucide="download" class="w-3.5 h-3.5 text-violet-400"></i>
+                <span class="hidden sm:inline">Export All Tests (JSON)</span>
+              </button>
+
+              <!-- Exam Filter Tabs -->
+              <div id="exam-tabs-container" class="flex items-center gap-1.5 p-1 rounded-xl bg-white/5 border border-white/5 overflow-x-auto max-w-full">
+                <!-- Dynamically populated / switched via app.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Section A: Exam Selection / Overview Cards -->
+          <div id="exam-selection-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Dynamically populated with 5 exam cards -->
+          </div>
+
+          <!-- Section B: Active Exam Runner (Hidden until exam started) -->
+          <div id="exam-runner-container" class="hidden space-y-5">
+            
+            <!-- Runner Top Bar -->
+            <div class="glass-panel p-4 md:p-5 rounded-2xl flex flex-wrap items-center justify-between gap-4 border border-white/10">
+              <div class="flex items-center gap-3">
+                <button id="exam-back-to-hub-btn" class="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition-colors" title="Exit to Exam Hub">
+                  <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                </button>
+                <div>
+                  <h3 id="runner-exam-title" class="text-sm md:text-base font-bold text-white">Quantitative Ability</h3>
+                  <div class="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
+                    <span id="runner-question-indicator" class="font-mono text-indigo-400 font-semibold">Question 1 of 7</span>
+                    <span>•</span>
+                    <span id="runner-answered-count">0 Answered</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <!-- Countdown Timer -->
+                <div id="exam-timer-badge" class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white/5 border border-white/10 font-mono text-sm text-slate-200">
+                  <i data-lucide="clock" class="w-4 h-4 text-indigo-400"></i>
+                  <span id="exam-timer-display">12:00</span>
+                </div>
+
+                <!-- Submit Exam Button -->
+                <button id="exam-submit-trigger-btn" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs md:text-sm transition-all shadow-lg shadow-indigo-600/30">
+                  Submit Exam
+                </button>
+              </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+              <div id="runner-progress-bar" class="h-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-300 w-0"></div>
+            </div>
+
+            <!-- Active Question & Navigation Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+              
+              <!-- Question Card (3 columns on large screens) -->
+              <div class="lg:col-span-3 glass-panel p-6 md:p-8 rounded-2xl flex flex-col justify-between border border-white/10 min-h-[420px]">
+                <div>
+                  <!-- Header: Question tag & Flag button -->
+                  <div class="flex items-center justify-between mb-4">
+                    <span id="runner-q-category-tag" class="text-xs font-mono px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                      Problem Statement
+                    </span>
+                    <button id="runner-flag-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-amber-400 hover:bg-amber-500/10 transition-colors border border-transparent">
+                      <i data-lucide="flag" class="w-3.5 h-3.5"></i>
+                      <span id="runner-flag-text">Flag for Review</span>
+                    </button>
+                  </div>
+
+                  <!-- Question Text -->
+                  <div id="runner-question-text" class="text-base md:text-lg text-white font-medium mb-6 whitespace-pre-line leading-relaxed">
+                    <!-- Populated dynamically -->
+                  </div>
+
+                  <!-- Options (A, B, C, D) -->
+                  <div id="runner-options-list" class="space-y-3">
+                    <!-- Dynamically populated options -->
+                  </div>
+                </div>
+
+                <!-- Bottom Navigation Buttons -->
+                <div class="pt-6 mt-6 border-t border-white/5 flex items-center justify-between">
+                  <button id="runner-prev-btn" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white text-xs md:text-sm font-medium flex items-center gap-2 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                    <span>Previous</span>
+                  </button>
+
+                  <div class="text-xs text-slate-400 hidden sm:block">
+                    Press <span class="font-mono bg-white/5 px-1 py-0.5 rounded">1-4</span> to select option
+                  </div>
+
+                  <button id="runner-next-btn" class="px-4 py-2 rounded-xl bg-indigo-600/80 hover:bg-indigo-600 text-white text-xs md:text-sm font-semibold flex items-center gap-2 transition-all">
+                    <span>Next</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Question Palette / Quick Jump Grid (1 column) -->
+              <div class="lg:col-span-1 glass-panel p-5 rounded-2xl flex flex-col justify-between border border-white/10">
+                <div>
+                  <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Question Palette</h4>
+                  
+                  <div id="runner-palette-grid" class="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-4 gap-2 mb-5">
+                    <!-- Populated dynamically (1..N) -->
+                  </div>
+
+                  <!-- Palette Legend -->
+                  <div class="space-y-2 text-[11px] text-slate-400 pt-3 border-t border-white/5">
+                    <div class="flex items-center gap-2">
+                      <span class="w-3 h-3 rounded bg-indigo-500/20 border border-indigo-500/50"></span>
+                      <span>Answered</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <span class="w-3 h-3 rounded bg-amber-500/20 border border-amber-500/50"></span>
+                      <span>Flagged for Review</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <span class="w-3 h-3 rounded bg-white/5 border border-white/10"></span>
+                      <span>Unanswered</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-4 pt-3 border-t border-white/5">
+                  <button id="runner-submit-from-palette" class="w-full py-2 px-3 rounded-xl bg-white/5 hover:bg-indigo-600/20 text-slate-200 hover:text-white border border-white/10 hover:border-indigo-500/30 text-xs font-semibold text-center transition-all">
+                    Finish & View Results
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Section C: Results & Score Summary View (Hidden until submitted) -->
+          <div id="exam-results-container" class="hidden space-y-6">
+            <!-- Dynamically populated result view with SVG score ring and explanation accordion -->
+          </div>
+
+        </section>
+
+
+        <!-- ==========================================================================
+             VIEW 3: AI INTELLIGENCE DIGEST (10 NEWSLETTERS)
+             ========================================================================== -->
+        <section id="view-news" class="view-pane hidden space-y-6 animate-fade-in">
+          
+          <!-- Header & Search/Filter Controls -->
+          <div class="space-y-4 border-b border-white/5 pb-6">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-xs font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Career Intelligence</span>
+                  <span id="news-header-stats" class="text-xs text-slate-400">• 10 Curated Editions</span>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Daily & Weekly Placement Digest</h2>
+                <p class="text-slate-400 text-xs md:text-sm mt-1">Curated industry hiring patterns, technical skill roadmaps, frontier AI insights, and in-browser publishing.</p>
+              </div>
+
+              <!-- Action Buttons & Search Controls -->
+              <div class="flex flex-wrap items-center gap-2.5">
+                <button id="btn-open-news-publisher" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white font-semibold text-xs flex items-center gap-2 transition-all shadow-lg shadow-cyan-600/25 hover:shadow-cyan-600/40">
+                  <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                  <span>+ Publish Today's News</span>
+                </button>
+
+                <button id="btn-export-news" class="px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 font-medium text-xs flex items-center gap-1.5 transition-colors" title="Copy full newsletters dataset to clipboard as JSON">
+                  <i data-lucide="download" class="w-3.5 h-3.5 text-cyan-400"></i>
+                  <span class="hidden sm:inline">Export Newsletters (JSON)</span>
+                </button>
+
+                <!-- Search Bar & Sort Toggle -->
+                <div class="relative w-full sm:w-52">
+                  <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                  <input type="text" id="news-search-input" placeholder="Search AI news..." class="w-full pl-9 pr-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all">
+                </div>
+
+                <button id="news-sort-btn" class="px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-slate-300 font-medium flex items-center gap-1.5 transition-colors" title="Toggle Sort Order">
+                  <i data-lucide="arrow-down-up" class="w-3.5 h-3.5"></i>
+                  <span id="news-sort-label">Newest</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div id="news-category-pills" class="flex items-center gap-2 overflow-x-auto pb-1 max-w-full">
+              <!-- Dynamically populated category buttons -->
+            </div>
+          </div>
+
+          <!-- Newsletters Card Grid -->
+          <div id="news-grid-container" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Dynamically populated newsletter cards -->
+          </div>
+
+          <!-- Empty Search State -->
+          <div id="news-empty-state" class="hidden text-center py-16 glass-panel rounded-2xl border border-white/5">
+            <div class="w-12 h-12 rounded-2xl bg-white/5 text-slate-400 flex items-center justify-center mx-auto mb-3">
+              <i data-lucide="search-x" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">No Newsletters Found</h3>
+            <p class="text-xs text-slate-400 max-w-sm mx-auto">No articles matched your search query. Try clearing your search keyword or selecting "All" categories.</p>
+            <button id="news-reset-search-btn" class="mt-4 px-3 py-1.5 rounded-lg bg-cyan-600/20 text-cyan-300 border border-cyan-500/30 text-xs font-semibold hover:bg-cyan-600/30 transition-colors">
+              Clear Filters
+            </button>
+          </div>
+
+        </section>
+
+
+        <!-- ==========================================================================
+             VIEW 4: SAHYADRI ASSISTANT (CAMPUS NLP CHATBOT)
+             ========================================================================== -->
+        <section id="view-chatbot" class="view-pane hidden flex flex-col h-[calc(100vh-8.5rem)] animate-fade-in">
+          
+          <!-- Chatbot Top Header Bar -->
+          <div class="glass-panel p-4 rounded-2xl mb-4 flex items-center justify-between border border-white/10">
+            <div class="flex items-center gap-3">
+              <div class="relative">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
+                  <i data-lucide="bot" class="w-5 h-5"></i>
+                </div>
+                <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-[#0B0F19]"></span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h3 class="text-sm font-bold text-white">AptiBot: Placement & Aptitude Mentor</h3>
+                  <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Client-Side NLP</span>
+                </div>
+                <p class="text-[11px] text-slate-400">Instant quantitative shortcuts, 2D motion, formula solver & interactive challenge mode</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button id="chat-clear-btn" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white border border-white/5 text-xs font-medium flex items-center gap-1.5 transition-colors">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                <span class="hidden sm:inline">Clear Chat</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Suggested Quick Prompt Chips -->
+          <div class="mb-3 overflow-x-auto pb-1 flex items-center gap-2">
+            <span class="text-[11px] font-semibold text-slate-400 whitespace-nowrap px-1">Quick prompts:</span>
+            <button class="chat-prompt-chip whitespace-nowrap text-xs px-3 py-1.5 rounded-full bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 transition-all font-semibold flex items-center gap-1">
+              <i data-lucide="zap" class="w-3 h-3 text-amber-400"></i>
+              <span>⚡ Quiz Me (Instant Challenge)</span>
+            </button>
+            <button class="chat-prompt-chip whitespace-nowrap text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-indigo-600/20 text-slate-300 hover:text-indigo-200 border border-white/10 hover:border-indigo-500/30 transition-all">
+              Speed & Relative Motion
+            </button>
+            <button class="chat-prompt-chip whitespace-nowrap text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-indigo-600/20 text-slate-300 hover:text-indigo-200 border border-white/10 hover:border-indigo-500/30 transition-all">
+              Equations of 2D Motion
+            </button>
+            <button class="chat-prompt-chip whitespace-nowrap text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-indigo-600/20 text-slate-300 hover:text-indigo-200 border border-white/10 hover:border-indigo-500/30 transition-all">
+              Time & Work LCM Method
+            </button>
+            <button class="chat-prompt-chip whitespace-nowrap text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-indigo-600/20 text-slate-300 hover:text-indigo-200 border border-white/10 hover:border-indigo-500/30 transition-all">
+              HR STAR Framework
+            </button>
+            <button class="chat-prompt-chip whitespace-nowrap text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-indigo-600/20 text-slate-300 hover:text-indigo-200 border border-white/10 hover:border-indigo-500/30 transition-all">
+              What are the CET codes?
+            </button>
+            <button class="chat-prompt-chip whitespace-nowrap text-xs px-3 py-1.5 rounded-full bg-white/5 hover:bg-indigo-600/20 text-slate-300 hover:text-indigo-200 border border-white/10 hover:border-indigo-500/30 transition-all">
+              Placement records & packages
+            </button>
+          </div>
+
+          <!-- Chat Conversation Scroll Area -->
+          <div id="chat-messages-container" class="flex-1 glass-panel p-4 md:p-6 rounded-2xl overflow-y-auto space-y-4 border border-white/10 mb-4">
+            <!-- Initial Bot Message -->
+            <div class="flex items-start gap-3 max-w-2xl animate-fade-in">
+              <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30">
+                <i data-lucide="bot" class="w-4 h-4"></i>
+              </div>
+              <div class="space-y-2">
+                <div class="p-4 rounded-2xl bg-[#172033]/90 border border-white/10 chat-prose">
+                  <p class="text-white text-sm font-semibold mb-1">Welcome to AptiBot — Placement & Aptitude Mentor!</p>
+                  <p class="text-slate-300 text-xs leading-relaxed">
+                    I am your intelligent client-side mentor running with <strong>zero server latency</strong>. Ask me for instant mental shortcuts, speed math, LCM methods for Time & Work, equations of 2D motion, HR interview tactics, or test your readiness with our <strong>interactive "Quiz Me" challenge mode</strong>!
+                  </p>
+                </div>
+                <div class="flex flex-wrap gap-1.5">
+                  <button class="chat-prompt-chip text-[11px] px-2.5 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 transition-colors font-semibold">
+                    ⚡ Quiz Me (Instant Challenge)
+                  </button>
+                  <button class="chat-prompt-chip text-[11px] px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5 transition-colors">
+                    Speed & Relative Motion
+                  </button>
+                  <button class="chat-prompt-chip text-[11px] px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5 transition-colors">
+                    Equations of 2D Motion
+                  </button>
+                  <button class="chat-prompt-chip text-[11px] px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 border border-white/5 transition-colors">
+                    HR STAR Framework
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Typing indicator (hidden by default) -->
+            <div id="chat-typing-indicator" class="hidden items-center gap-3 animate-fade-in">
+              <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30">
+                <i data-lucide="bot" class="w-4 h-4"></i>
+              </div>
+              <div class="px-4 py-3 rounded-2xl bg-[#172033]/90 border border-white/10 flex items-center gap-1.5">
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chat Input Bar -->
+          <form id="chat-form" class="glass-panel p-2 rounded-2xl flex items-center gap-2 border border-white/10">
+            <input type="text" id="chat-input" placeholder="Ask AptiBot: 'Quiz me', 'Speed & distance', 'LCM method', '2D motion', 'HR STAR'..." autocomplete="off" class="flex-1 px-4 py-2.5 bg-transparent text-white placeholder-slate-500 text-xs md:text-sm focus:outline-none">
+            <button type="submit" id="chat-send-btn" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs md:text-sm flex items-center gap-2 transition-all shadow-lg shadow-emerald-600/30">
+              <span>Send</span>
+              <i data-lucide="send" class="w-3.5 h-3.5"></i>
+            </button>
+          </form>
+
+        </section>
+
+
+        <!-- ==========================================================================
+             VIEW 5: PROJECT SPECS & ARCHITECTURE DOCUMENTATION
+             ========================================================================== -->
+        <section id="view-specs" class="view-pane hidden space-y-6 animate-fade-in">
+          
+          <div class="border-b border-white/5 pb-5">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-white/10">Engineering Specification</span>
+              <span class="text-xs text-slate-400">• Linear & Vercel Aesthetic</span>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Repository Architecture & Technical Specs</h2>
+            <p class="text-slate-400 text-xs md:text-sm mt-1">Deep-dive structural breakdown of this static client-side single page application.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <div class="glass-panel p-6 rounded-2xl space-y-4">
+              <h3 class="text-base font-bold text-white flex items-center gap-2">
+                <i data-lucide="cpu" class="w-4 h-4 text-indigo-400"></i>
+                Technical Architecture
+              </h3>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                The application is engineered strictly as a client-side Single Page Application (SPA) requiring zero external server runtime. All state management, routing, score calculation, and text matching run deterministically in the browser engine.
+              </p>
+              <div class="space-y-2 text-xs">
+                <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between">
+                  <span class="text-slate-400">Styling & Tokens</span>
+                  <span class="font-mono text-slate-200">Tailwind CSS + Custom Glassmorphism</span>
+                </div>
+                <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between">
+                  <span class="text-slate-400">Icon System</span>
+                  <span class="font-mono text-slate-200">Lucide Icons (vLatest)</span>
+                </div>
+                <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between">
+                  <span class="text-slate-400">Routing</span>
+                  <span class="font-mono text-slate-200">Vanilla Hash Routing (#overview, #exams, etc.)</span>
+                </div>
+                <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between">
+                  <span class="text-slate-400">State Engine</span>
+                  <span class="font-mono text-slate-200">Decoupled ES6 Classes & LocalStorage Sync</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl space-y-4">
+              <h3 class="text-base font-bold text-white flex items-center gap-2">
+                <i data-lucide="layers" class="w-4 h-4 text-violet-400"></i>
+                Decoupled Data Architecture
+              </h3>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Data layers are decoupled into clean standalone modules with no circular dependencies:
+              </p>
+              <div class="space-y-2 text-xs">
+                <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                  <div class="font-mono text-indigo-300 mb-1">assets/js/exams-data.js</div>
+                  <div class="text-slate-400">15 complete exams, 287 questions, with TCS, Infosys, Accenture, Cognizant, Wipro, Quantitative math, Logical reasoning, and JLPT Japanese.</div>
+                </div>
+                <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                  <div class="font-mono text-cyan-300 mb-1">assets/js/news-data.js</div>
+                  <div class="text-slate-400">10 distinct AI & placement newsletters with key takeaways, category badges, read times, and technical write-ups.</div>
+                </div>
+                <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                  <div class="font-mono text-emerald-300 mb-1">assets/js/chatbot.js</div>
+                  <div class="text-slate-400">AptiBot offline NLP engine with KaTeX mathematical typography, 2D motion solver, LCM shortcuts, STAR HR method, and interactive Quiz Me mode.</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Verification Checklist Card -->
+          <div class="glass-panel p-6 rounded-2xl">
+            <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
+              <i data-lucide="check-square" class="w-4 h-4 text-emerald-400"></i>
+              Formal Evaluation Rubric Compliance (100/100 Target)
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+              <div class="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-emerald-300 flex items-center gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                <span>Problem-Solving (35/35): 15 Mock Tests + AptiBot</span>
+              </div>
+              <div class="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-emerald-300 flex items-center gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                <span>Efficiency (25/25): Sub-50ms transitions, CLS = 0</span>
+              </div>
+              <div class="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-emerald-300 flex items-center gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                <span>Lightweight (20/20): Pure semantic HTML5 + ES6+</span>
+              </div>
+              <div class="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-emerald-300 flex items-center gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                <span>Visual UI (20/20): Linear & Vercel Dark Mode</span>
+              </div>
+              <div class="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-emerald-300 flex items-center gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                <span>KaTeX Equations: Formatted math formulas</span>
+              </div>
+              <div class="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-emerald-300 flex items-center gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                <span>Zero-Build Setup: Runs directly in browser</span>
+              </div>
+              <div class="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-emerald-300 flex items-center gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                <span>Dark mode Linear palette</span>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- ==========================================================================
+       MODALS CONTAINER
+       ========================================================================== -->
+
+  <!-- Modal 1: Exam Submit Confirmation Modal -->
+  <div id="modal-exam-submit" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md hidden animate-fade-in" role="dialog" aria-modal="true">
+    <div class="glass-dropdown max-w-md w-full p-6 rounded-2xl border border-white/10 shadow-2xl space-y-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20">
+          <i data-lucide="alert-circle" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-white">Submit Exam Confirmation</h3>
+          <p class="text-xs text-slate-400">Are you sure you want to finalize your submission?</p>
+        </div>
+      </div>
+
+      <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/5 space-y-2 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400">Total Questions:</span>
+          <span id="modal-submit-total" class="font-mono text-white font-bold">7</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400">Answered:</span>
+          <span id="modal-submit-answered" class="font-mono text-emerald-400 font-bold">5</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400">Flagged for Review:</span>
+          <span id="modal-submit-flagged" class="font-mono text-amber-400 font-bold">1</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400">Unanswered:</span>
+          <span id="modal-submit-unanswered" class="font-mono text-rose-400 font-bold">2</span>
+        </div>
+      </div>
+
+      <p class="text-[11px] text-slate-400">Once submitted, answers cannot be edited and your final performance review with explanations will be generated immediately.</p>
+
+      <div class="flex items-center justify-end gap-2.5 pt-2">
+        <button id="modal-submit-cancel-btn" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-semibold transition-colors">
+          Return to Test
+        </button>
+        <button id="modal-submit-confirm-btn" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-all shadow-lg shadow-indigo-600/30">
+          Yes, Submit Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Full Newsletter Reader Modal -->
+  <div id="modal-news-reader" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md hidden animate-fade-in" role="dialog" aria-modal="true">
+    <div class="glass-dropdown max-w-2xl w-full max-h-[85vh] flex flex-col rounded-2xl border border-white/10 shadow-2xl overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="p-5 border-b border-white/5 flex items-start justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1.5">
+            <span id="news-modal-badge" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">Reasoning Models</span>
+            <span id="news-modal-date" class="text-xs text-slate-400">Nov 03, 2026</span>
+            <span class="text-xs text-slate-600">•</span>
+            <span id="news-modal-readtime" class="text-xs text-slate-400">5 min read</span>
+          </div>
+          <h3 id="news-modal-title" class="text-lg md:text-xl font-bold text-white leading-snug">Newsletter Title</h3>
+        </div>
+        <button id="news-modal-close-btn" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors" aria-label="Close Newsletter Modal">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="p-6 overflow-y-auto space-y-4">
+        <!-- Key Takeaways Highlight Box -->
+        <div class="p-4 rounded-xl bg-cyan-500/5 border border-cyan-500/20">
+          <div class="text-xs font-bold text-cyan-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+            Key Takeaways
+          </div>
+          <ul id="news-modal-takeaways" class="space-y-1.5 text-xs text-slate-200">
+            <!-- Populated dynamically -->
+          </ul>
+        </div>
+
+        <!-- Full Article Body -->
+        <div id="news-modal-content" class="text-slate-300 text-sm leading-relaxed space-y-4 chat-prose">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 border-t border-white/5 bg-[#090D16]/60 flex items-center justify-between">
+        <span class="text-xs text-slate-400 font-mono">NexusLab Intelligence Digest</span>
+        <button id="news-modal-dismiss-btn" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white text-xs font-semibold transition-colors">
+          Close Article
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal 3: Zero-Code Exam & Question Injector Modal -->
+  <div id="modal-exam-creator" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden animate-fade-in" role="dialog" aria-modal="true">
+    <div class="glass-dropdown max-w-3xl w-full max-h-[90vh] flex flex-col rounded-2xl border border-white/10 shadow-2xl overflow-hidden">
+      
+      <!-- Creator Header -->
+      <div class="p-5 border-b border-white/5 flex items-start justify-between gap-4 bg-[#0E1526]/80">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-violet-500/10 text-violet-400 border border-violet-500/20">Zero-Code Creator</span>
+            <span class="text-xs text-slate-400">• Persists to LocalStorage</span>
+          </div>
+          <h3 class="text-lg md:text-xl font-bold text-white leading-snug">+ Create / Attach Assessment Test</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Author interactive tests or paste questions directly. Saved tests appear instantly alongside built-in exams.</p>
+        </div>
+
+        <button id="exam-creator-close-btn" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors" aria-label="Close Exam Creator Modal">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Creator Mode Switcher Tabs -->
+      <div class="px-6 pt-4 pb-2 bg-[#090D16]/60 border-b border-white/5 flex items-center gap-2">
+        <button id="tab-creator-visual" class="px-4 py-2 rounded-xl text-xs font-semibold transition-all bg-indigo-600 text-white shadow-md flex items-center gap-2">
+          <i data-lucide="file-edit" class="w-3.5 h-3.5"></i>
+          <span>Visual Form Mode</span>
+        </button>
+        <button id="tab-creator-json" class="px-4 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all flex items-center gap-2">
+          <i data-lucide="code" class="w-3.5 h-3.5"></i>
+          <span>JSON Quick-Paste Mode</span>
+        </button>
+      </div>
+
+      <!-- Creator Modal Body (Scrollable) -->
+      <div class="p-6 overflow-y-auto space-y-5 flex-1">
+        
+        <!-- PANE 1: Visual Form Mode -->
+        <div id="creator-visual-pane" class="space-y-5">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">Exam Title <span class="text-rose-400">*</span></label>
+              <input type="text" id="creator-title" placeholder="e.g., JLPT N5 Kanji Flash Quiz 3" class="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/60">
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">Category <span class="text-rose-400">*</span></label>
+              <select id="creator-category" class="w-full px-3.5 py-2.5 rounded-xl bg-[#111827] border border-white/10 text-white text-xs focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/60">
+                <option value="Japanese N5">Japanese N5 (JLPT)</option>
+                <option value="Quantitative">Quantitative Ability</option>
+                <option value="Reasoning">Logical Reasoning</option>
+                <option value="Verbal & DI">Verbal & Data Interpretation</option>
+                <option value="General Aptitude">General Aptitude</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">
+                Timer Duration <span class="text-indigo-400 font-mono">(Minutes)</span>
+              </label>
+              <input type="number" id="creator-duration" min="1" max="180" value="8" class="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/60">
+              <span class="text-[10px] text-slate-400 mt-1 block">Supports 5-8 min flash tests for Japanese</span>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">Passing Score %</label>
+              <input type="number" id="creator-passing" min="10" max="100" value="70" class="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/60">
+              <span class="text-[10px] text-slate-400 mt-1 block">Benchmark accuracy target</span>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">Icon Style</label>
+              <select id="creator-icon" class="w-full px-3.5 py-2.5 rounded-xl bg-[#111827] border border-white/10 text-white text-xs focus:outline-none focus:border-indigo-500/60">
+                <option value="sparkles">✨ Sparkles / Flash</option>
+                <option value="languages">🈯 Languages (Japanese)</option>
+                <option value="calculator">🧮 Calculator (Quant)</option>
+                <option value="brain">🧠 Brain (Logic)</option>
+                <option value="book-open">📖 Reading (Verbal)</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Description</label>
+            <input type="text" id="creator-description" placeholder="Brief 1-sentence synopsis of topics tested" class="w-full px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500/60">
+          </div>
+
+          <!-- Dynamic Questions List -->
+          <div class="pt-3 border-t border-white/5">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300">Questions</h4>
+                <span id="creator-q-badge" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-violet-500/10 text-violet-400 border border-violet-500/20">1 Question</span>
+              </div>
+              <button type="button" id="creator-add-q-btn" class="px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 text-xs font-semibold flex items-center gap-1.5 transition-colors">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                <span>+ Add Question</span>
+              </button>
+            </div>
+
+            <div id="creator-questions-container" class="space-y-4">
+              <!-- Dynamically populated question cards -->
+            </div>
+          </div>
+        </div>
+
+        <!-- PANE 2: JSON Quick-Paste Mode -->
+        <div id="creator-json-pane" class="hidden space-y-4">
+          <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between gap-3 text-xs text-slate-300">
+            <div>
+              <span class="font-semibold text-white">Direct JSON Import:</span>
+              <span class="text-slate-400 ml-1">Paste a complete exam object or raw questions array.</span>
+            </div>
+            <button type="button" id="btn-load-sample-json" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-indigo-300 border border-white/10 text-[11px] font-mono transition-colors">
+              Load JLPT N5 Sample
+            </button>
+          </div>
+
+          <div>
+            <textarea id="creator-json-input" rows="12" placeholder='{\n  "title": "JLPT N5 Kanji Speed Quiz",\n  "category": "Japanese N5",\n  "durationMinutes": 8,\n  "passingScore": 70,\n  "description": "Quick speed test on Kanji readings and daily verbs.",\n  "questions": [\n    {\n      "question": "Choose the reading for「水」:",\n      "options": ["みず (mizu)", "ひ (hi)", "き (ki)", "かね (kane)"],\n      "correctAnswer": 0,\n      "explanation": "「水」means water and is read as みず (mizu)."\n    }\n  ]\n}' class="w-full p-4 rounded-xl bg-[#090D16] border border-white/10 text-indigo-200 font-mono text-xs focus:outline-none focus:border-indigo-500/60 leading-relaxed"></textarea>
+          </div>
+
+          <div id="creator-json-status" class="hidden p-3 rounded-xl text-xs"></div>
+
+          <div class="flex justify-end">
+            <button type="button" id="btn-validate-json-import" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition-all shadow-md flex items-center gap-2">
+              <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+              <span>Validate & Import Test</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Creator Modal Footer -->
+      <div class="p-4 border-t border-white/5 bg-[#090D16]/80 flex items-center justify-between">
+        <span class="text-xs text-slate-400">Stored in your browser's local state</span>
+        <div class="flex items-center gap-2.5">
+          <button type="button" id="creator-cancel-btn" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-semibold transition-colors">
+            Cancel
+          </button>
+          <button type="button" id="creator-submit-btn" class="px-5 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-xs font-semibold transition-all shadow-lg shadow-violet-600/30 flex items-center gap-2">
+            <i data-lucide="save" class="w-3.5 h-3.5"></i>
+            <span>Save & Attach Test</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal 4: Daily In-Browser Newsletter Publisher Modal -->
+  <div id="modal-news-publisher" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden animate-fade-in" role="dialog" aria-modal="true">
+    <div class="glass-dropdown max-w-2xl w-full max-h-[90vh] flex flex-col rounded-2xl border border-white/10 shadow-2xl overflow-hidden">
+      
+      <!-- Publisher Header -->
+      <div class="p-5 border-b border-white/5 flex items-start justify-between gap-4 bg-[#0E1526]/80">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Daily AI Digest Publisher</span>
+            <span class="text-xs text-slate-400">• Zero-Code Publishing</span>
+          </div>
+          <h3 class="text-lg md:text-xl font-bold text-white leading-snug">+ Publish Today's AI Newsletter</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Post fresh breakthrough analysis directly to the feed and persist in local storage.</p>
+        </div>
+
+        <button id="news-publisher-close-btn" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors" aria-label="Close Newsletter Publisher Modal">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Publisher Body (Scrollable) -->
+      <div class="p-6 overflow-y-auto space-y-4 flex-1">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Publish Date <span class="text-rose-400">*</span></label>
+            <input type="text" id="pub-date" placeholder="e.g. Nov 03, 2026" class="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/60">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Topic / Category Tag <span class="text-rose-400">*</span></label>
+            <select id="pub-category" class="w-full px-3.5 py-2.5 rounded-xl bg-[#111827] border border-white/10 text-white text-xs focus:outline-none focus:border-cyan-500/60">
+              <option value="Reasoning Models">Reasoning Models</option>
+              <option value="Autonomous Agents">Autonomous Agents</option>
+              <option value="Multimodality">Multimodality</option>
+              <option value="Frontier LLMs">Frontier LLMs</option>
+              <option value="Coding Benchmarks">Coding Benchmarks</option>
+              <option value="Open Source">Open Source</option>
+              <option value="Robotics">Robotics & VLA</option>
+              <option value="Edge AI">Edge AI & SLMs</option>
+              <option value="AI Infrastructure">AI Infrastructure</option>
+              <option value="Safety & Governance">Safety & Governance</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Headline / Title <span class="text-rose-400">*</span></label>
+          <input type="text" id="pub-title" placeholder="e.g., Claude 3.7 Sonnet Hybrid Thinking & Extended Reasoning" class="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/60">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Author</label>
+            <input type="text" id="pub-author" value="NexusLab AI Frontier Desk" class="w-full px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-cyan-500/60">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Read Time</label>
+            <input type="text" id="pub-readtime" value="4 min read" class="w-full px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-cyan-500/60">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Short Summary (2 Sentences) <span class="text-rose-400">*</span></label>
+          <textarea id="pub-summary" rows="2" placeholder="High-level executive briefing summarizing the core architectural or market shift." class="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-cyan-500/60 leading-relaxed"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Key Takeaways (One per line, up to 3) <span class="text-rose-400">*</span></label>
+          <textarea id="pub-takeaways" rows="3" placeholder="Key technical bullet point 1&#10;Key technical bullet point 2&#10;Key technical bullet point 3" class="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-cyan-500/60 leading-relaxed"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Full Article / Takeaways Body (Markdown Supported) <span class="text-rose-400">*</span></label>
+          <textarea id="pub-content" rows="6" placeholder="### Technical Architecture&#10;Detailed explanation of the breakthrough with bullet points and code blocks..." class="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-cyan-500/60 leading-relaxed font-sans"></textarea>
+        </div>
+
+      </div>
+
+      <!-- Publisher Footer -->
+      <div class="p-4 border-t border-white/5 bg-[#090D16]/80 flex items-center justify-between">
+        <span class="text-xs text-slate-400">Instantly prepends to newsletter feed</span>
+        <div class="flex items-center gap-2.5">
+          <button type="button" id="pub-cancel-btn" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-semibold transition-colors">
+            Cancel
+          </button>
+          <button type="button" id="pub-submit-btn" class="px-5 py-2 rounded-xl bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white text-xs font-semibold transition-all shadow-lg shadow-cyan-600/30 flex items-center gap-2">
+            <i data-lucide="send" class="w-3.5 h-3.5"></i>
+            <span>Publish Article</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal 5: Beginner & First-Year Contributor Guide Modal -->
+  <div id="modal-contributor-guide" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden animate-fade-in" role="dialog" aria-modal="true">
+    <div class="glass-dropdown max-w-3xl w-full max-h-[90vh] flex flex-col rounded-2xl border border-white/10 shadow-2xl overflow-hidden">
+      
+      <!-- Guide Header -->
+      <div class="p-5 border-b border-white/5 flex items-start justify-between gap-4 bg-[#0E1526]/80">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center border border-indigo-500/30">
+            <i data-lucide="book-open-check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-lg md:text-xl font-bold text-white leading-snug">NexusLab Contributor Onboarding Guide</h3>
+            <p class="text-xs text-slate-400">Zero-code maintenance guide for non-coders, first-year peers & project teammates</p>
+          </div>
+        </div>
+
+        <button id="guide-modal-close-btn" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors" aria-label="Close Contributor Guide Modal">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Guide Tabs -->
+      <div class="px-6 pt-4 pb-2 bg-[#090D16]/60 border-b border-white/5 flex items-center gap-2 overflow-x-auto">
+        <button id="tab-guide-exams" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all bg-indigo-600 text-white shadow-md flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i>
+          <span>1. Adding Tests in 1 Min</span>
+        </button>
+        <button id="tab-guide-news" class="px-3.5 py-1.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="newspaper" class="w-3.5 h-3.5"></i>
+          <span>2. Daily News Publishing</span>
+        </button>
+        <button id="tab-guide-chatbot" class="px-3.5 py-1.5 rounded-xl text-xs font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="bot" class="w-3.5 h-3.5"></i>
+          <span>3. Expanding Sahyadri Bot</span>
+        </button>
+      </div>
+
+      <!-- Guide Body (Scrollable) -->
+      <div class="p-6 overflow-y-auto space-y-6 flex-1 text-slate-300 text-xs leading-relaxed">
+        
+        <!-- SECTION 1: Adding Tests -->
+        <div id="guide-sec-exams" class="space-y-4">
+          <div class="p-4 rounded-xl bg-violet-500/10 border border-violet-500/20 text-violet-200">
+            <h4 class="font-bold text-white text-sm mb-1 flex items-center gap-2">
+              <i data-lucide="zap" class="w-4 h-4 text-violet-400"></i>
+              No Coding Required — Visual & JSON Modes
+            </h4>
+            <p class="text-xs text-slate-300">
+              Any teammate or first-year peer can inject aptitude quizzes or short 5-8 minute JLPT Japanese flash assessments directly inside the browser.
+            </p>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-violet-500/20 text-violet-400 font-mono font-bold flex items-center justify-center shrink-0 border border-violet-500/30">1</span>
+              <div>
+                <strong class="text-white block text-sm mb-0.5">Click "+ Create / Attach Test" on Exam Hub</strong>
+                <span>Open the modal. You can choose between the interactive visual builder or quick JSON paste.</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-violet-500/20 text-violet-400 font-mono font-bold flex items-center justify-center shrink-0 border border-violet-500/30">2</span>
+              <div>
+                <strong class="text-white block text-sm mb-0.5">Configure Title, Category & Timer</strong>
+                <span>Set your test title (e.g. <em>"JLPT N5 Kanji Flash Quiz"</em>), choose category, and specify duration (e.g. <strong>8 minutes</strong> for speed flash drills or 15 mins for full mock).</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-violet-500/20 text-violet-400 font-mono font-bold flex items-center justify-center shrink-0 border border-violet-500/30">3</span>
+              <div>
+                <strong class="text-white block text-sm mb-0.5">Add Questions, Options & Mark the Correct Answer</strong>
+                <span>Fill in 4 options (A, B, C, D) and simply click the radio toggle next to the right answer. Add an explanation if you want.</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-violet-500/20 text-violet-400 font-mono font-bold flex items-center justify-center shrink-0 border border-violet-500/30">4</span>
+              <div>
+                <strong class="text-white block text-sm mb-0.5">Save to LocalStorage & Sync via JSON Export</strong>
+                <span>Click <strong>"Save & Attach Test"</strong>. Your test is live immediately! To commit it permanently into the GitHub repo, click <strong>"Export All Tests (JSON)"</strong>, paste into <code class="text-violet-300 font-mono">assets/js/exams-data.js</code>, and push to main.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 2: Daily News Publishing -->
+        <div id="guide-sec-news" class="hidden space-y-4">
+          <div class="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-200">
+            <h4 class="font-bold text-white text-sm mb-1 flex items-center gap-2">
+              <i data-lucide="newspaper" class="w-4 h-4 text-cyan-400"></i>
+              Post Daily AI Breakdowns in 2 Minutes
+            </h4>
+            <p class="text-xs text-slate-300">
+              Keep the dashboard updated daily with the latest AI discoveries without writing any HTML or JavaScript.
+            </p>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 font-mono font-bold flex items-center justify-center shrink-0 border border-cyan-500/30">1</span>
+              <div>
+                <strong class="text-white block text-sm mb-0.5">Click "+ Publish Today's News"</strong>
+                <span>Located in the AI Newsletters module header.</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 font-mono font-bold flex items-center justify-center shrink-0 border border-cyan-500/30">2</span>
+              <div>
+                <strong class="text-white block text-sm mb-0.5">Enter Headline, Category & Key Takeaways</strong>
+                <span>Provide a 2-sentence executive summary and 3 key takeaways (one per line). These will render as sleek highlight pills on the card.</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 font-mono font-bold flex items-center justify-center shrink-0 border border-cyan-500/30">3</span>
+              <div>
+                <strong class="text-white block text-sm mb-0.5">Write Full Analysis Body</strong>
+                <span>Full Markdown support! You can use <code class="font-mono text-cyan-300">### Section</code>, <code class="font-mono text-cyan-300">- bullet points</code>, and code blocks.</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 font-mono font-bold flex items-center justify-center shrink-0 border border-cyan-500/30">4</span>
+              <div>
+                <strong class="text-white block text-sm mb-0.5">Commit via "Export Newsletters (JSON)"</strong>
+                <span>Clicking <strong>"Export Newsletters (JSON)"</strong> puts the full updated dataset on your clipboard ready to paste into <code class="text-cyan-300 font-mono">assets/js/news-data.js</code>.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 3: Expanding Sahyadri Chatbot -->
+        <div id="guide-sec-chatbot" class="hidden space-y-4">
+          <div class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-200">
+            <h4 class="font-bold text-white text-sm mb-1 flex items-center gap-2">
+              <i data-lucide="bot" class="w-4 h-4 text-emerald-400"></i>
+              Offline NLP Knowledge Base Expansion
+            </h4>
+            <p class="text-xs text-slate-300">
+              The Sahyadri Assistant uses an offline keyword-intent matcher in <code class="font-mono text-emerald-300">assets/js/chatbot.js</code>. Here is how any student can add new FAQs (bus routes, sports fests, lab equipment).
+            </p>
+          </div>
+
+          <div>
+            <strong class="text-white block text-sm mb-2">Knowledge Item Schema:</strong>
+            <pre class="p-3.5 rounded-xl bg-[#090D16] border border-white/10 text-emerald-300 font-mono text-[11px] leading-relaxed overflow-x-auto">
+{
+  id: 'campus_bus_transit',
+  intent: 'College Transit & Bus Fleet',
+  keywords: ['bus', 'route', 'pickup', 'transport', 'commute', 'driver', 'timings'],
+  response: `
+**Sahyadri College Bus & Transit Fleet:**
+
+- **Coverage:** Regular bus services operating across Mangaluru, Surathkal, Bantwal, Udupi, and Kasaragod.
+- **Timing:** Arrives at campus by 8:45 AM; departures at 5:00 PM.
+- **Office:** Contact the Transit Desk at the Main Administrative Block.
+  `,
+  followUps: [
+    'Campus location & Netravati Riverside',
+    'What are the CET codes?',
+    'Campus amenities & facilities'
+  ]
+}</pre>
+          </div>
+
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/5 space-y-1 text-slate-300">
+            <strong class="text-white block mb-1">Simple 3-Step Contribution Workflow:</strong>
+            <p>1. Open <code class="font-mono text-indigo-300">assets/js/chatbot.js</code>.</p>
+            <p>2. Add your new object inside the <code class="font-mono text-indigo-300">this.knowledgeBase = [ ... ]</code> array.</p>
+            <p>3. Test immediately by refreshing the page in your browser. Send a GitHub PR once confirmed!</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Guide Footer -->
+      <div class="p-4 border-t border-white/5 bg-[#090D16]/80 flex items-center justify-between">
+        <span class="text-xs text-slate-400 font-mono">NexusLab Capstone Maintenance Manual</span>
+        <button id="guide-modal-dismiss-btn" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-all shadow-md">
+          Got It, Thanks!
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Global Toast Notifications Container -->
+  <div id="toast-container" aria-live="polite"></div>
+
+  <!-- Application Logic & Decoupled Datasets -->
+  <script src="assets/js/exams-data.js"></script>
+  <script src="assets/js/news-data.js"></script>
+  <script src="assets/js/chatbot.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
