@@ -95,27 +95,21 @@ export default function AuthDrawer() {
           {/* Drawer Header */}
           <div className="p-6 bg-slate-50/80 border-b border-slate-200 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div
-                className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-xs transition-colors ${
-                  authMode === 'student'
-                    ? 'bg-emerald-600 text-white shadow-emerald-600/20'
-                    : 'bg-amber-600 text-white shadow-amber-600/20'
-                }`}
-              >
-                {authMode === 'student' ? (
-                  <GraduationCap className="w-5 h-5" />
-                ) : (
-                  <ShieldCheck className="w-5 h-5" />
-                )}
+              <div className="w-10 h-10 rounded-xl overflow-hidden border border-[#E3EBE6] bg-white flex items-center justify-center p-0.5 shadow-xs shrink-0">
+                <img
+                  src="/images/sahyadri-crest.jpg"
+                  alt="Sahyadri Shield Crest"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <h2 className="text-base font-extrabold text-slate-900 tracking-tight">
-                  CampusPrep Portal Gate
+                  SahyadriPrep Portal Gate
                 </h2>
                 <p className="text-[11px] text-slate-500">
                   {authRedirectUrl
                     ? 'Authentication required to proceed'
-                    : 'Select your operational institutional role'}
+                    : 'Sahyadri College of Engineering & Management'}
                 </p>
               </div>
             </div>

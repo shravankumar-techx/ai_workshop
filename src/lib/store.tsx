@@ -493,7 +493,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
       const storedNews = localStorage.getItem('cp_newsletters');
       if (storedNews) {
-        setNewsletters(JSON.parse(storedNews));
+        const parsed: Newsletter[] = JSON.parse(storedNews);
+        const merged = parsed.map((item) => {
+          const defaultItem = mockNewsletters.find((m) => m.id === item.id || m.edition_no === item.edition_no);
+          return {
+            ...item,
+            cover_image: item.cover_image || defaultItem?.cover_image || 'https://images.unsplash.com/photo-1677442136019-21780efad99a?w=800&auto=format&fit=crop&q=80',
+            category: item.category || defaultItem?.category || 'Tech Trends',
+          };
+        });
+        setNewsletters(merged);
       }
 
       const storedResources = localStorage.getItem('cp_resources');

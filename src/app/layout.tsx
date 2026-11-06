@@ -5,11 +5,12 @@ import { AppProvider } from '@/lib/store';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import PlacementBot from '@/components/chat/PlacementBot';
+import TouchRippleProvider from '@/components/ui/TouchRippleProvider';
 
 export const metadata: Metadata = {
-  title: 'CampusPrep Portal | Enterprise Placement & Career Preparation Platform',
+  title: 'SahyadriPrep Portal | Sahyadri College of Engineering & Management',
   description: 'High-performance placement preparation suite: 30 MCQ aptitude mock exams, verified job drives, weekly career newsletters, and Gemini-powered Placement AI.',
-  keywords: ['Campus Placements', 'Aptitude Tests', 'TCS NQT', 'Infosys', 'Interview Prep', 'Career Portal'],
+  keywords: ['Sahyadri', 'Campus Placements', 'Aptitude Tests', 'TCS NQT', 'Infosys', 'Interview Prep', 'Career Portal'],
 };
 
 export default function RootLayout({
@@ -135,13 +136,21 @@ export default function RootLayout({
             `,
           }}
         />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-emerald-500/20 selection:text-emerald-800">
         <AppProvider>
-          <Navbar />
-          <main className="flex-1 w-full pb-28">{children}</main>
-          <Footer />
-          <PlacementBot />
+          <TouchRippleProvider>
+            <Navbar />
+            <main className="flex-1 w-full pb-28">{children}</main>
+            <Footer />
+            <PlacementBot />
+          </TouchRippleProvider>
         </AppProvider>
       </body>
     </html>

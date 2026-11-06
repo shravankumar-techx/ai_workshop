@@ -19,6 +19,8 @@ import {
 } from 'lucide-react';
 import { useApp, studentProfile } from '@/lib/store';
 import { formatSecondsToTime, formatDate } from '@/lib/utils';
+import Breadcrumbs from '@/components/layout/Breadcrumbs';
+import PageHeaderBanner from '@/components/layout/PageHeaderBanner';
 
 export default function StudentDashboardPage() {
   const { currentUser, attempts, readinessScores, jobs, resources } = useApp();
@@ -26,62 +28,65 @@ export default function StudentDashboardPage() {
   const user = currentUser || studentProfile;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 bg-slate-50 min-h-screen text-slate-900">
-      {/* Top Welcome Banner */}
-      <div className="glass-panel rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative overflow-hidden">
-        <div className="space-y-2 z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold shadow-xs">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Campus Drive Ready Status: Active</span>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 bg-[#F7FAF8] min-h-screen text-slate-900">
+      {/* Lined Breadcrumb Navigation */}
+      <Breadcrumbs items={[{ label: 'Student Analytics Hub' }]} />
+
+      {/* Styled Emerald Header Banner with Dot Matrix Texture */}
+      <PageHeaderBanner
+        badgeIcon={Sparkles}
+        badgeText={`Campus Drive Ready Status: Active • Batch of ${user.batch_year}`}
+        title={`Welcome back, ${user.full_name}`}
+        description={`${user.branch} • Target Class of ${user.batch_year} • Cumulative GPA: ${user.cgpa || 8.85} • Continuous assessment tracking active.`}
+        watermarkIcon={Award}
+        action={
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href="/exams"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white text-[#044E39] font-bold text-xs shadow-md shadow-emerald-950/20 hover:bg-[#EAF7F1] transition active:scale-95 border border-white/50 cursor-pointer"
+            >
+              <BookOpen className="w-4 h-4 text-[#07865B]" />
+              <span>Attempt Mock Test</span>
+            </Link>
+            <Link
+              href="/jobs"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#044E39]/70 hover:bg-[#044E39]/90 text-white border border-white/20 text-xs font-semibold backdrop-blur-md transition active:scale-95 cursor-pointer"
+            >
+              <Briefcase className="w-4 h-4 text-emerald-300" />
+              <span>Eligible Drives</span>
+            </Link>
           </div>
-          <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Welcome back, {user.full_name}
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-600">
-            {user.branch} • Batch of {user.batch_year} • CGPA: <span className="text-emerald-700 font-bold">{user.cgpa || 8.85}</span>
-          </p>
-        </div>
+        }
+      />
 
-        <div className="flex flex-wrap items-center gap-3 z-10">
-          <Link
-            href="/exams"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-md shadow-emerald-600/20 transition active:scale-95"
-          >
-            <BookOpen className="w-4 h-4" />
-            <span>Attempt New Mock Test</span>
-          </Link>
-          <Link
-            href="/jobs"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 text-xs font-semibold shadow-xs transition"
-          >
-            <Briefcase className="w-4 h-4 text-emerald-600" />
-            <span>Eligible Job Openings</span>
-          </Link>
-        </div>
-      </div>
-
-      {/* KPI Stats Grid */}
+      {/* KPI Stats Grid with Interactive Touch Ripple Feedback */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* KPI 1: Overall Accuracy */}
-        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs">
+        <div
+          data-ripple="true"
+          className="bg-white rounded-2xl p-5 border border-[#E3EBE6] shadow-xs cursor-pointer hover:border-[#07865B]/60 hover:shadow-md transition-all active:scale-[0.98] select-none"
+        >
           <div className="flex items-center justify-between text-slate-500 text-xs font-medium mb-3">
             <span>Overall Accuracy</span>
-            <Target className="w-4 h-4 text-emerald-600" />
+            <Target className="w-4 h-4 text-[#07865B]" />
           </div>
           <div className="text-3xl font-extrabold text-slate-900 tracking-tight">
             {readinessScores.overall}%
           </div>
-          <div className="text-[11px] text-emerald-700 font-semibold mt-2 flex items-center gap-1">
+          <div className="text-[11px] text-[#07865B] font-semibold mt-2 flex items-center gap-1">
             <TrendingUp className="w-3 h-3" />
             <span>+4.2% from previous week</span>
           </div>
         </div>
 
         {/* KPI 2: Tests Completed */}
-        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs">
+        <div
+          data-ripple="true"
+          className="bg-white rounded-2xl p-5 border border-[#E3EBE6] shadow-xs cursor-pointer hover:border-[#07865B]/60 hover:shadow-md transition-all active:scale-[0.98] select-none"
+        >
           <div className="flex items-center justify-between text-slate-500 text-xs font-medium mb-3">
             <span>Mock Tests Completed</span>
-            <Award className="w-4 h-4 text-emerald-600" />
+            <Award className="w-4 h-4 text-[#07865B]" />
           </div>
           <div className="text-3xl font-extrabold text-slate-900 tracking-tight">
             {attempts.length} <span className="text-sm font-normal text-slate-500">/ 30</span>
@@ -92,21 +97,27 @@ export default function StudentDashboardPage() {
         </div>
 
         {/* KPI 3: Aptitude Readiness Index */}
-        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs">
+        <div
+          data-ripple="true"
+          className="bg-white rounded-2xl p-5 border border-[#E3EBE6] shadow-xs cursor-pointer hover:border-[#07865B]/60 hover:shadow-md transition-all active:scale-[0.98] select-none"
+        >
           <div className="flex items-center justify-between text-slate-500 text-xs font-medium mb-3">
             <span>Readiness Index</span>
-            <BarChart3 className="w-4 h-4 text-emerald-600" />
+            <BarChart3 className="w-4 h-4 text-[#07865B]" />
           </div>
-          <div className="text-3xl font-extrabold text-emerald-700 tracking-tight">
+          <div className="text-3xl font-extrabold text-[#07865B] tracking-tight">
             86<span className="text-base text-slate-500 font-normal">/100</span>
           </div>
-          <div className="text-[11px] text-emerald-700 font-bold mt-2">
+          <div className="text-[11px] text-[#07865B] font-bold mt-2">
             Top 12th Percentile in Batch
           </div>
         </div>
 
         {/* KPI 4: Study Streak */}
-        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs">
+        <div
+          data-ripple="true"
+          className="bg-white rounded-2xl p-5 border border-[#E3EBE6] shadow-xs cursor-pointer hover:border-amber-500/60 hover:shadow-md transition-all active:scale-[0.98] select-none"
+        >
           <div className="flex items-center justify-between text-slate-500 text-xs font-medium mb-3">
             <span>Study Streak</span>
             <Flame className="w-4 h-4 text-amber-500 fill-amber-500" />

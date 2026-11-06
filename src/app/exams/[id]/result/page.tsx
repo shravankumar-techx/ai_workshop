@@ -18,6 +18,7 @@ import { useApp } from '@/lib/store';
 import { formatSecondsToTime } from '@/lib/utils';
 import confetti from 'canvas-confetti';
 import FormattedMessage from '@/components/chat/FormattedMessage';
+import Breadcrumbs from '@/components/layout/Breadcrumbs';
 
 export default function ExamResultPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
@@ -55,90 +56,117 @@ export default function ExamResultPage({ params }: { params: Promise<{ id: strin
   const isPassed = accuracy >= exam.passing_percentage;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 bg-slate-50 min-h-screen text-slate-900">
-      {/* Result Hero Banner */}
-      <div className="glass-panel rounded-3xl p-8 text-center space-y-6 relative overflow-hidden">
-        <div className="w-16 h-16 rounded-2xl bg-emerald-600 flex items-center justify-center text-white mx-auto shadow-lg shadow-emerald-600/20">
-          <Award className="w-8 h-8" />
-        </div>
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 bg-[#F7FAF8] min-h-screen text-slate-900">
+      {/* Lined Breadcrumb Navigation */}
+      <Breadcrumbs
+        items={[
+          { label: 'Mock Exams', href: '/exams' },
+          { label: exam.title, href: `/exams/${exam.id}` },
+          { label: 'Performance Scorecard' },
+        ]}
+      />
 
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800 shadow-xs">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Assessment Evaluated & Verified</span>
+      {/* Result Hero Banner - Styled Emerald with Dot Matrix Texture */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#044E39] via-[#07865B] to-[#065F46] p-8 sm:p-10 text-center text-white border border-[#044E39] shadow-xl shadow-emerald-950/20">
+        {/* Subtle Textured Dot Matrix Grid */}
+        <div
+          className="absolute inset-0 opacity-15 pointer-events-none"
+          style={{
+            backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 1px)',
+            backgroundSize: '24px 24px',
+          }}
+        />
+
+        {/* Ambient Glow */}
+        <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-emerald-400/20 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-teal-300/15 blur-3xl pointer-events-none" />
+
+        {/* Glass reflection top hairline */}
+        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+
+        <div className="relative z-10 space-y-6 max-w-3xl mx-auto">
+          <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md border border-white/25 flex items-center justify-center text-amber-300 mx-auto shadow-lg shadow-black/20">
+            <Award className="w-8 h-8" />
           </div>
-          <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Performance Scorecard: {exam.title}
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
-            {isPassed
-              ? '🎉 Outstanding performance! You cleared the institutional aptitude cutoff with high percentile accuracy.'
-              : 'Keep practicing! Review the step-by-step explanations below to master weak mathematical or logical patterns.'}
-          </p>
-        </div>
 
-        {/* Big KPI Metrics Row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto pt-4 text-slate-900">
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 shadow-xs">
-            <div className="text-slate-500 text-xs font-medium">Final Score</div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-emerald-700 mt-1 font-mono">
-              {correctCount * 2} <span className="text-sm text-slate-500 font-normal">/ {totalCount * 2}</span>
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-white/15 text-emerald-100 border border-white/20 backdrop-blur-sm">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" />
+              <span>Assessment Evaluated & Verified</span>
             </div>
-            <div className="text-[11px] text-slate-400 mt-1">2 Marks / Question</div>
+            <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+              Performance Scorecard: {exam.title}
+            </h1>
+            <p className="text-xs sm:text-sm text-emerald-100/90 max-w-xl mx-auto leading-relaxed">
+              {isPassed
+                ? '🎉 Outstanding performance! You cleared the institutional aptitude cutoff with high percentile accuracy.'
+                : 'Keep practicing! Review the step-by-step explanations below to master weak mathematical or logical patterns.'}
+            </p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 shadow-xs">
-            <div className="text-slate-500 text-xs font-medium">Accuracy</div>
-            <div
-              className={`text-2xl sm:text-3xl font-extrabold mt-1 ${
-                accuracy >= 75 ? 'text-emerald-700' : accuracy >= 50 ? 'text-amber-600' : 'text-rose-600'
-              }`}
+          {/* Big KPI Metrics Row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 pt-2">
+            <div className="p-4 rounded-2xl bg-white text-slate-900 border border-[#E3EBE6] shadow-md">
+              <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider">Final Score</div>
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#07865B] mt-1 font-mono">
+                {correctCount * 2} <span className="text-sm text-slate-400 font-normal">/ {totalCount * 2}</span>
+              </div>
+              <div className="text-[11px] text-slate-500 mt-1">2 Marks / Question</div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-white text-slate-900 border border-[#E3EBE6] shadow-md">
+              <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider">Accuracy</div>
+              <div
+                className={`text-2xl sm:text-3xl font-extrabold mt-1 font-mono ${
+                  accuracy >= 75 ? 'text-[#07865B]' : accuracy >= 50 ? 'text-amber-600' : 'text-rose-600'
+                }`}
+              >
+                {accuracy}%
+              </div>
+              <div className="text-[11px] text-slate-500 mt-1">{correctCount} of {totalCount} Correct</div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-white text-slate-900 border border-[#E3EBE6] shadow-md">
+              <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider">Percentile Est.</div>
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#044E39] mt-1 font-mono">
+                {percentile}th
+              </div>
+              <div className="text-[11px] text-slate-500 mt-1">Campus Batch Standing</div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-white text-slate-900 border border-[#E3EBE6] shadow-md">
+              <div className="text-slate-500 text-xs font-semibold uppercase tracking-wider">Time Taken</div>
+              <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1 font-mono">
+                {formatSecondsToTime(timeTaken)}
+              </div>
+              <div className="text-[11px] text-slate-500 mt-1">Limit: {exam.duration_minutes}m</div>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <Link
+              href={`/exams/${exam.id}`}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-[#044E39] hover:bg-[#EAF7F1] text-xs font-bold shadow-md shadow-emerald-950/20 transition active:scale-95 cursor-pointer"
             >
-              {accuracy}%
-            </div>
-            <div className="text-[11px] text-slate-400 mt-1">{correctCount} of {totalCount} Correct</div>
+              <RotateCcw className="w-3.5 h-3.5 text-[#07865B]" />
+              <span>Retake This Exam</span>
+            </Link>
+            <Link
+              href="/dashboard/student"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#044E39]/80 hover:bg-[#044E39] text-white border border-white/20 text-xs font-semibold backdrop-blur-md transition active:scale-95 cursor-pointer"
+            >
+              <LayoutDashboard className="w-3.5 h-3.5 text-emerald-300" />
+              <span>Go to Student Hub</span>
+            </Link>
+            <Link
+              href="/exams"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white border border-white/20 text-xs font-semibold backdrop-blur-md transition active:scale-95 cursor-pointer"
+            >
+              <span>Next Mock Exam</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
-
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 shadow-xs">
-            <div className="text-slate-500 text-xs font-medium">Percentile Est.</div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-emerald-800 mt-1 font-mono">
-              {percentile}th
-            </div>
-            <div className="text-[11px] text-slate-400 mt-1">Campus Batch Standing</div>
-          </div>
-
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 shadow-xs">
-            <div className="text-slate-500 text-xs font-medium">Time Taken</div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1 font-mono">
-              {formatSecondsToTime(timeTaken)}
-            </div>
-            <div className="text-[11px] text-slate-400 mt-1">Limit: {exam.duration_minutes}m</div>
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-          <Link
-            href={`/exams/${exam.id}`}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold shadow-xs transition"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Retake This Exam</span>
-          </Link>
-          <Link
-            href="/dashboard/student"
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-md shadow-emerald-600/20 transition"
-          >
-            <LayoutDashboard className="w-3.5 h-3.5" />
-            <span>Go to Student Hub</span>
-          </Link>
-          <Link
-            href="/exams"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold shadow-xs transition"
-          >
-            <span>Next Mock Exam</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
         </div>
       </div>
 

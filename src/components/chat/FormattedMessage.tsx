@@ -6,16 +6,21 @@ import 'katex/dist/katex.min.css';
 
 interface FormattedMessageProps {
   content: string;
+  isUser?: boolean;
 }
 
-export default function FormattedMessage({ content }: FormattedMessageProps) {
+export default function FormattedMessage({ content, isUser = false }: FormattedMessageProps) {
   if (!content) return null;
   const blocks = parseBlocks(content);
 
   return (
-    <div className="space-y-3 text-slate-100 text-xs sm:text-sm leading-relaxed overflow-x-auto">
+    <div
+      className={`space-y-2.5 text-xs sm:text-sm leading-relaxed overflow-x-auto ${
+        isUser ? 'text-white' : 'text-slate-700'
+      }`}
+    >
       {blocks.map((block, idx) => (
-        <React.Fragment key={idx}>{renderBlock(block)}</React.Fragment>
+        <React.Fragment key={idx}>{renderBlock(block, isUser)}</React.Fragment>
       ))}
     </div>
   );
@@ -222,32 +227,38 @@ function parseBlocks(raw: string): BlockType[] {
   return blocks;
 }
 
-function renderBlock(block: BlockType) {
+function renderBlock(block: BlockType, isUser: boolean) {
   switch (block.type) {
     case 'heading': {
       const Tag = block.level === 1 ? 'h2' : block.level === 2 ? 'h3' : 'h4';
       const sizeClasses =
         block.level === 1
-          ? 'text-base sm:text-lg font-extrabold text-white pt-2.5 pb-1 border-b border-slate-700/60'
+          ? isUser
+            ? 'text-base sm:text-lg font-extrabold text-white pt-2 pb-1 border-b border-white/20'
+            : 'text-base sm:text-lg font-extrabold text-slate-900 pt-2 pb-1 border-b border-slate-200'
           : block.level === 2
-          ? 'text-sm sm:text-base font-bold text-indigo-300 pt-2'
-          : 'text-xs sm:text-sm font-semibold text-slate-200 pt-1.5';
+          ? isUser
+            ? 'text-sm sm:text-base font-bold text-emerald-100 pt-1.5'
+            : 'text-sm sm:text-base font-bold text-[#07865B] pt-1.5'
+          : isUser
+          ? 'text-xs sm:text-sm font-semibold text-white pt-1'
+          : 'text-xs sm:text-sm font-semibold text-slate-800 pt-1';
 
       return (
         <Tag className={`${sizeClasses} tracking-tight`}>
-          <InlineContent text={block.text} />
+          <InlineContent text={block.text} isUser={isUser} />
         </Tag>
       );
     }
 
     case 'displayMath':
-      return <DisplayMathBlock latex={block.latex} />;
+      return <DisplayMathBlock latex={block.latex} isUser={isUser} />;
 
     case 'code':
       return (
-        <div className="my-2.5 rounded-xl bg-slate-950 border border-slate-800 p-3 overflow-x-auto font-mono text-xs text-indigo-200 shadow-sm">
+        <div className="my-2.5 rounded-xl bg-slate-900 border border-slate-800 p-3 overflow-x-auto font-mono text-xs text-emerald-300 shadow-sm">
           {block.language && (
-            <div className="text-[10px] uppercase font-bold text-slate-500 mb-1 tracking-wider">
+            <div className="text-[10px] uppercase font-bold text-slate-400 mb-1 tracking-wider">
               {block.language}
             </div>
           )}
@@ -257,23 +268,23 @@ function renderBlock(block: BlockType) {
 
     case 'table':
       return (
-        <div className="my-3 overflow-x-auto rounded-xl border border-slate-700/80 bg-slate-900/60 shadow-sm">
+        <div className="my-3 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-xs">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-800/80 border-b border-slate-700 text-indigo-300 uppercase tracking-wider text-[11px]">
+            <thead className="bg-slate-50 border-b border-slate-200 text-slate-700 uppercase tracking-wider text-[11px]">
               <tr>
                 {block.headers.map((h, i) => (
                   <th key={i} className="py-2.5 px-3 font-bold">
-                    <InlineContent text={h} />
+                    <InlineContent text={h} isUser={isUser} />
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800 text-slate-200">
+            <tbody className="divide-y divide-slate-100 text-slate-700">
               {block.rows.map((row, rIdx) => (
-                <tr key={rIdx} className="hover:bg-slate-800/40 transition">
+                <tr key={rIdx} className="hover:bg-slate-50/70 transition">
                   {row.map((cell, cIdx) => (
                     <td key={cIdx} className="py-2 px-3">
-                      <InlineContent text={cell} />
+                      <InlineContent text={cell} isUser={isUser} />
                     </td>
                   ))}
                 </tr>
@@ -287,10 +298,14 @@ function renderBlock(block: BlockType) {
       const ListTag = block.ordered ? 'ol' : 'ul';
       const listClass = block.ordered ? 'list-decimal' : 'list-disc';
       return (
-        <ListTag className={`${listClass} pl-5 space-y-1.5 my-2 text-slate-300 marker:text-indigo-400`}>
+        <ListTag
+          className={`${listClass} pl-5 space-y-1.5 my-2 ${
+            isUser ? 'text-white marker:text-emerald-200' : 'text-slate-700 marker:text-emerald-600'
+          }`}
+        >
           {block.items.map((item, idx) => (
             <li key={idx} className="leading-relaxed">
-              <InlineContent text={item} />
+              <InlineContent text={item} isUser={isUser} />
             </li>
           ))}
         </ListTag>
@@ -299,25 +314,31 @@ function renderBlock(block: BlockType) {
 
     case 'blockquote':
       return (
-        <blockquote className="my-2.5 pl-3.5 border-l-2 border-indigo-400 bg-indigo-500/5 py-1.5 pr-3 rounded-r-lg text-slate-300 italic text-xs leading-relaxed">
-          <InlineContent text={block.text} />
+        <blockquote
+          className={`my-2.5 pl-3.5 border-l-2 py-1.5 pr-3 rounded-r-lg italic text-xs leading-relaxed ${
+            isUser
+              ? 'border-white/60 bg-white/10 text-white'
+              : 'border-[#07865B] bg-emerald-50/60 text-slate-700'
+          }`}
+        >
+          <InlineContent text={block.text} isUser={isUser} />
         </blockquote>
       );
 
     case 'hr':
-      return <hr className="my-3 border-slate-800" />;
+      return <hr className={`my-3 ${isUser ? 'border-white/20' : 'border-slate-200'}`} />;
 
     case 'paragraph':
     default:
       return (
-        <p className="leading-relaxed text-slate-200 my-1">
-          <InlineContent text={block.text} />
+        <p className={`leading-relaxed my-1 ${isUser ? 'text-white' : 'text-slate-700'}`}>
+          <InlineContent text={block.text} isUser={isUser} />
         </p>
       );
   }
 }
 
-function DisplayMathBlock({ latex }: { latex: string }) {
+function DisplayMathBlock({ latex, isUser }: { latex: string; isUser: boolean }) {
   let html = '';
   try {
     html = katex.renderToString(latex, {
@@ -329,7 +350,11 @@ function DisplayMathBlock({ latex }: { latex: string }) {
   }
   return (
     <div
-      className="my-3 py-2.5 px-3 sm:px-4 rounded-xl bg-slate-900/90 border border-indigo-500/30 overflow-x-auto text-indigo-200 text-center shadow-inner"
+      className={`my-3 py-2.5 px-3 sm:px-4 rounded-xl overflow-x-auto text-center shadow-xs ${
+        isUser
+          ? 'bg-emerald-700/80 border border-emerald-500/50 text-white'
+          : 'bg-emerald-50/70 border border-emerald-200 text-emerald-950'
+      }`}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
@@ -344,7 +369,7 @@ function DisplayMathBlock({ latex }: { latex: string }) {
  * - Italic: *...*
  * - Plain text
  */
-function InlineContent({ text }: { text: string }): React.ReactNode {
+function InlineContent({ text, isUser }: { text: string; isUser: boolean }): React.ReactNode {
   if (!text) return null;
   const tokens = tokenizeInline(text);
 
@@ -353,7 +378,7 @@ function InlineContent({ text }: { text: string }): React.ReactNode {
       {tokens.map((token, idx) => {
         switch (token.type) {
           case 'displayMath':
-            return <DisplayMathBlock key={idx} latex={token.content} />;
+            return <DisplayMathBlock key={idx} latex={token.content} isUser={isUser} />;
 
           case 'math': {
             let mathHtml = '';
@@ -368,7 +393,9 @@ function InlineContent({ text }: { text: string }): React.ReactNode {
             return (
               <span
                 key={idx}
-                className="inline-block px-1 font-mono text-indigo-300 font-medium"
+                className={`inline-block px-1 font-mono font-semibold ${
+                  isUser ? 'text-emerald-100' : 'text-emerald-800'
+                }`}
                 dangerouslySetInnerHTML={{ __html: mathHtml }}
               />
             );
@@ -378,7 +405,11 @@ function InlineContent({ text }: { text: string }): React.ReactNode {
             return (
               <code
                 key={idx}
-                className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-indigo-300 font-mono text-[11px]"
+                className={`px-1.5 py-0.5 rounded font-mono text-[11px] ${
+                  isUser
+                    ? 'bg-emerald-700/80 border border-emerald-500/50 text-emerald-100'
+                    : 'bg-slate-100 border border-slate-200 text-emerald-800 font-semibold'
+                }`}
               >
                 {token.content}
               </code>
@@ -391,7 +422,11 @@ function InlineContent({ text }: { text: string }): React.ReactNode {
                 href={token.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2 decoration-indigo-500/50 hover:decoration-indigo-400 transition"
+                className={`underline underline-offset-2 transition ${
+                  isUser
+                    ? 'text-white hover:text-emerald-100'
+                    : 'text-[#07865B] hover:text-[#065F46] font-semibold'
+                }`}
               >
                 {token.content}
               </a>
@@ -399,15 +434,15 @@ function InlineContent({ text }: { text: string }): React.ReactNode {
 
           case 'bold':
             return (
-              <strong key={idx} className="font-bold text-white">
-                <InlineContent text={token.content} />
+              <strong key={idx} className={`font-bold ${isUser ? 'text-white' : 'text-slate-900'}`}>
+                <InlineContent text={token.content} isUser={isUser} />
               </strong>
             );
 
           case 'italic':
             return (
-              <em key={idx} className="italic text-slate-300">
-                <InlineContent text={token.content} />
+              <em key={idx} className={`italic ${isUser ? 'text-emerald-100' : 'text-slate-600'}`}>
+                <InlineContent text={token.content} isUser={isUser} />
               </em>
             );
 
@@ -500,3 +535,4 @@ function tokenizeInline(text: string): InlineToken[] {
 
   return tokens;
 }
+

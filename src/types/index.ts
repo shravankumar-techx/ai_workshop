@@ -98,6 +98,8 @@ export interface Newsletter {
   read_time: string;
   publish_date: string;
   author_name?: string;
+  cover_image?: string;
+  category?: string;
 }
 
 export interface Resource {
@@ -110,6 +112,9 @@ export interface Resource {
   file_type: string;
   download_count: number;
   content_preview?: string;
+  page_count?: number;
+  file_size?: string;
+  verified?: boolean;
 }
 
 export interface ChatMessage {

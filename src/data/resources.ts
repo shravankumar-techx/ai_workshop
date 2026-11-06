@@ -11,6 +11,9 @@ export const mockResources: Resource[] = [
     tags: ['Quantitative', 'Formula Sheet', 'Speed Math', 'Vedic Math'],
     file_type: 'PDF',
     download_count: 2480,
+    page_count: 45,
+    file_size: '4.2 MB',
+    verified: true,
     content_preview: `
 ### Key Formula Quick-Reference:
 1. **Compound Interest Annually:** A = P * (1 + R/100)^t
@@ -31,6 +34,9 @@ export const mockResources: Resource[] = [
     tags: ['Logical Reasoning', 'Puzzles', 'Syllogism', 'Arrangements'],
     file_type: 'PDF',
     download_count: 1890,
+    page_count: 32,
+    file_size: '3.1 MB',
+    verified: true,
     content_preview: `
 ### Seating Arrangement Strategy:
 - **Circular Facing Center:** Clockwise is to the LEFT, Counter-clockwise is to the RIGHT.
@@ -47,6 +53,9 @@ export const mockResources: Resource[] = [
     tags: ['Verbal Ability', 'Grammar', 'Idioms', 'Reading Comprehension'],
     file_type: 'PDF',
     download_count: 1420,
+    page_count: 24,
+    file_size: '2.4 MB',
+    verified: true,
     content_preview: `
 ### Golden Grammar Checkpoints:
 1. **Either / Neither with Or / Nor:** The verb agrees with the NOUN CLOSER to the verb.
@@ -65,6 +74,9 @@ export const mockResources: Resource[] = [
     tags: ['DBMS', 'Operating Systems', 'Computer Networks', 'OOPs', 'CS Core'],
     file_type: 'PDF',
     download_count: 3840,
+    page_count: 58,
+    file_size: '5.6 MB',
+    verified: true,
     content_preview: `
 ### Essential Core CS Concepts:
 - **DBMS:** ACID properties (Atomicity, Consistency, Isolation, Durability). Isolation levels: Read Uncommitted, Read Committed, Repeatable Read, Serializable.
@@ -82,6 +94,9 @@ export const mockResources: Resource[] = [
     tags: ['SQL', 'Database', 'Window Functions', 'Queries'],
     file_type: 'PDF',
     download_count: 3120,
+    page_count: 36,
+    file_size: '3.4 MB',
+    verified: true,
     content_preview: `
 ### High-Frequency SQL Query Patterns:
 \`\`\`sql
@@ -104,6 +119,9 @@ SELECT salary FROM RankedSalaries WHERE rank_num = 2;
     tags: ['DSA', 'LeetCode', 'Algorithms', 'Interview Prep'],
     file_type: 'PDF',
     download_count: 4210,
+    page_count: 42,
+    file_size: '4.8 MB',
+    verified: true,
     content_preview: `
 ### Phase 1: Linear Patterns (Days 1 - 15)
 1. Two Pointers: Trapping Rain Water, Container with Most Water.
@@ -122,6 +140,9 @@ SELECT salary FROM RankedSalaries WHERE rank_num = 2;
     tags: ['HR Interview', 'STAR Method', 'Behavioral', 'Soft Skills'],
     file_type: 'PDF',
     download_count: 2750,
+    page_count: 38,
+    file_size: '3.7 MB',
+    verified: true,
     content_preview: `
 ### How to Answer "What is your greatest weakness?":
 - **Structure:** State a genuine weakness -> Explain the system or habit you adopted to overcome it -> Share positive current progress.
@@ -137,6 +158,9 @@ SELECT salary FROM RankedSalaries WHERE rank_num = 2;
     tags: ['Resume Template', 'LaTeX', 'Overleaf', 'ATS Friendly'],
     file_type: 'ZIP',
     download_count: 5120,
+    page_count: 4,
+    file_size: '1.8 MB',
+    verified: true,
     content_preview: `
 ### Resume Checklist:
 - [x] Single-column layout.
@@ -154,6 +178,9 @@ SELECT salary FROM RankedSalaries WHERE rank_num = 2;
     tags: ['Group Discussion', 'Speaking Skills', 'Campus Selection', 'GD Framework'],
     file_type: 'PDF',
     download_count: 1680,
+    page_count: 28,
+    file_size: '2.9 MB',
+    verified: true,
     content_preview: `
 ### The 3 Pillars of GD Leadership:
 1. **Initiator / Framing:** If initiating, define key terms neutrally without taking an extreme stance immediately.

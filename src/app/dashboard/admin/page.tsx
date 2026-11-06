@@ -31,6 +31,8 @@ import { useApp, adminProfile } from '@/lib/store';
 import { mockStudents } from '@/data/students';
 import { formatDate } from '@/lib/utils';
 import { Exam, Job, Newsletter, Resource } from '@/types';
+import Breadcrumbs from '@/components/layout/Breadcrumbs';
+import PageHeaderBanner from '@/components/layout/PageHeaderBanner';
 
 type AdminTab = 'students' | 'exams' | 'jobs' | 'newsletters' | 'resources';
 
@@ -223,43 +225,40 @@ export default function AdminDashboardPage() {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 pb-28 min-h-screen text-slate-900">
       {/* Toast Notification */}
       {notification && (
-        <div className="fixed top-20 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-xl bg-indigo-600 text-white font-medium text-xs shadow-2xl backdrop-blur-md animate-in slide-in-from-top-4 duration-200">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+        <div className="fixed top-20 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-xl bg-[#07865B] text-white font-medium text-xs shadow-2xl backdrop-blur-md animate-in slide-in-from-top-4 duration-200 border border-[#044E39]">
+          <CheckCircle2 className="w-4 h-4 text-emerald-200" />
           <span>{notification}</span>
         </div>
       )}
 
-      {/* Admin Header Banner */}
-      <div className="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative overflow-hidden">
-        <div className="space-y-2 z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs font-semibold">
-            <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-            <span>Faculty & Placement Administration Suite</span>
-          </div>
-          <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Institutional Placement Portal
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-400">
-            Welcome, {currentUser?.full_name || 'Dr. Rajesh Rao (Placement Director)'} • Access Level: Super Admin
-          </p>
-        </div>
+      {/* Lined Breadcrumb Navigation */}
+      <Breadcrumbs items={[{ label: 'Administration Console' }]} />
 
-        <div className="flex flex-wrap items-center gap-3 z-10">
-          <div className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300 flex items-center gap-2">
-            <span className={`w-2 h-2 rounded-full ${isSupabaseConnected ? 'bg-emerald-400 animate-pulse' : 'bg-slate-500'}`} />
-            <span>Database: <strong className="text-emerald-400 font-mono text-[11px]">Supabase Cloud (Auto-Sync Active)</strong></span>
+      {/* Styled Emerald Header Banner with Dot Matrix Texture */}
+      <PageHeaderBanner
+        badgeIcon={ShieldCheck}
+        badgeText="Faculty & Placement Administration Suite"
+        title="Admin Control Center"
+        description={`Welcome, ${currentUser?.full_name || 'Dr. Rajesh Rao (Placement Director)'} • Access Level: Super Administrator • Batch 2026 Active Management.`}
+        watermarkIcon={ShieldCheck}
+        action={
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="px-3.5 py-2 rounded-xl bg-[#044E39]/70 border border-white/20 text-xs text-emerald-100 flex items-center gap-2 backdrop-blur-md">
+              <span className={`w-2 h-2 rounded-full ${isSupabaseConnected ? 'bg-emerald-400 animate-pulse' : 'bg-slate-400'}`} />
+              <span>Database: <strong className="text-white font-mono text-[11px]">Supabase Cloud (Auto-Sync)</strong></span>
+            </div>
+            <div className="px-3.5 py-2 rounded-xl bg-white text-[#044E39] border border-white/40 text-xs font-semibold shadow-xs">
+              Batch: <strong className="text-[#07865B] font-bold">2026</strong>
+            </div>
           </div>
-          <div className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
-            Batch: <strong className="text-indigo-400">2026</strong>
-          </div>
-        </div>
-      </div>
+        }
+      />
 
-      {/* Admin Navigation Tabs */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-slate-800 pb-2">
+      {/* Admin Navigation Tabs - Lined Enclosed Card */}
+      <div className="bg-white rounded-2xl border border-[#E3EBE6] p-2.5 shadow-xs flex flex-wrap items-center gap-2">
         {[
           { id: 'students', label: 'Student Analytics Directory', icon: Users, count: mockStudents.length },
           { id: 'exams', label: 'Exam Engine Manager', icon: BookOpen, count: exams.length },
@@ -273,17 +272,17 @@ export default function AdminDashboardPage() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as AdminTab)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold transition ${
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer border ${
                 isActive
-                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/25'
-                  : 'bg-slate-900/60 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  ? 'bg-[#EAF7F1] text-[#044E39] border-[#07865B] shadow-xs'
+                  : 'bg-white hover:bg-[#F7FAF8] text-slate-600 border-transparent hover:border-[#E3EBE6]'
               }`}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className={`w-4 h-4 ${isActive ? 'text-[#07865B]' : 'text-slate-400'}`} />
               <span>{tab.label}</span>
               <span
                 className={`ml-1 px-1.5 py-0.5 text-[10px] rounded-full font-mono ${
-                  isActive ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400'
+                  isActive ? 'bg-[#07865B] text-white' : 'bg-slate-100 text-slate-600'
                 }`}
               >
                 {tab.count}

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Particle Burst / Click Spark Demo</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% 30%, #1e293b, #0f172a 80%);
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      overflow-x: hidden;
+      user-select: none;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #34d399, #10b981, #f59e0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p {
+      font-size: 1.1rem;
+      color: #94a3b8;
+      max-width: 480px;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+    .demo-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 28px 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .demo-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(52, 211, 153, 0.4);
+    }
+    .demo-button {
+      margin-top: 20px;
+      padding: 12px 28px;
+      background: #10b981;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Click Anywhere!</h1>
+  <p>Tap or click on the background canvas, cards, or buttons to trigger the particle burst spark explosion.</p>
+
+  <div class="demo-card">
+    <h3>Interactive Card Surface</h3>
+    <p style="font-size: 0.9rem; margin-top: 8px; margin-bottom: 0;">Sparks radiate smoothly from exact click coordinates.</p>
+    <button class="demo-button">Click Me</button>
+  </div>
+
+  <!-- ========================================================
+       STANDALONE VANILLA JAVASCRIPT PARTICLE BURST SNIPPET
+       ======================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      // 1. Configuration
+      const PARTICLE_COUNT = 14;      // Number of spark dots per click
+      const SPREAD_DISTANCE = 75;     // Maximum explosion distance (in px)
+      const COLORS = [
+        '#10B981', '#34D399', '#6EE7B7', // Emerald & Mint
+        '#F59E0B', '#FBBF24',            // Gold & Amber
+        '#38BDF8', '#818CF8',            // Cyan & Violet
+        '#FFFFFF'                        // Bright White Star
+      ];
+
+      // 2. Spark Generator Function
+      function burstParticles(x, y) {
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          const dot = document.createElement('span');
+
+          // Full 360-degree radial spread with natural dispersion jitter
+          const angle = (i * (360 / PARTICLE_COUNT) + (Math.random() * 30 - 15)) * (Math.PI / 180);
+          const distance = 30 + Math.random() * SPREAD_DISTANCE;
+          const targetX = Math.cos(angle) * distance;
+          const targetY = Math.sin(angle) * distance;
+
+          // Variable dot sizes (4px - 8px)
+          const size = 4 + Math.random() * 4;
+          const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+
+          // Styling
+          dot.style.position = 'fixed';
+          dot.style.left = x + 'px';
+          dot.style.top = y + 'px';
+          dot.style.width = size + 'px';
+          dot.style.height = size + 'px';
+          dot.style.borderRadius = '50%';
+          dot.style.backgroundColor = color;
+          dot.style.pointerEvents = 'none';
+          dot.style.zIndex = '999999';
+          dot.style.boxShadow = '0 0 10px ' + color;
+
+          document.body.appendChild(dot);
+
+          // Web Animations API with fallback
+          if (dot.animate) {
+            const animation = dot.animate(
+              [
+                {
+                  transform: 'translate(-50%, -50%) translate(0, 0) scale(1)',
+                  opacity: 1
+                },
+                {
+                  transform: 'translate(-50%, -50%) translate(' + (targetX * 0.7) + 'px, ' + (targetY * 0.7) + 'px) scale(0.9)',
+                  opacity: 0.9,
+                  offset: 0.6
+                },
+                {
+                  transform: 'translate(-50%, -50%) translate(' + targetX + 'px, ' + targetY + 'px) scale(0)',
+                  opacity: 0
+                }
+              ],
+              {
+                duration: 450 + Math.random() * 200,
+                easing: 'cubic-bezier(0.12, 0.8, 0.32, 1)',
+                fill: 'forwards'
+              }
+            );
+
+            animation.onfinish = function () {
+              dot.remove();
+            };
+          } else {
+            // Fallback for older browsers
+            setTimeout(function () {
+              dot.remove();
+            }, 500);
+          }
+        }
+      }
+
+      // 3. Robust Event Listener (Works for both Mouse & Touch)
+      function handleClick(e) {
+        // Safe target check
+        const target = e.target;
+        if (target && target.closest && target.closest('input:not([type="button"]):not([type="submit"]), textarea, select')) {
+          return; // Don't interrupt typing fields
+        }
+
+        const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+        const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+
+        burstParticles(clientX, clientY);
+      }
+
+      // Listen on window for pointerdown with passive mode
+      window.addEventListener('pointerdown', handleClick, { passive: true });
+    })();
+  </script>
+</body>
+</html>
+
